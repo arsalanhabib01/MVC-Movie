@@ -1,0 +1,92 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\C-Sharp\\Week-49\\MVC-Movie\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BDDB423F-070E-48A2-98AB-FE28C8975364}|MVC-Movie\\MVC-Movie.csproj|e:\\c-sharp\\week-49\\mvc-movie\\mvc-movie\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDDB423F-070E-48A2-98AB-FE28C8975364}|MVC-Movie\\MVC-Movie.csproj|solutionrelative:mvc-movie\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDDB423F-070E-48A2-98AB-FE28C8975364}|MVC-Movie\\MVC-Movie.csproj|e:\\c-sharp\\week-49\\mvc-movie\\mvc-movie\\views\\movies\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDDB423F-070E-48A2-98AB-FE28C8975364}|MVC-Movie\\MVC-Movie.csproj|solutionrelative:mvc-movie\\views\\movies\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDDB423F-070E-48A2-98AB-FE28C8975364}|MVC-Movie\\MVC-Movie.csproj|e:\\c-sharp\\week-49\\mvc-movie\\mvc-movie\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDDB423F-070E-48A2-98AB-FE28C8975364}|MVC-Movie\\MVC-Movie.csproj|solutionrelative:mvc-movie\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 143,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\C-Sharp\\Week-49\\MVC-Movie\\MVC-Movie\\Views\\Movies\\Index.cshtml",
+              "RelativeDocumentMoniker": "MVC-Movie\\Views\\Movies\\Index.cshtml",
+              "ToolTip": "E:\\C-Sharp\\Week-49\\MVC-Movie\\MVC-Movie\\Views\\Movies\\Index.cshtml",
+              "RelativeToolTip": "MVC-Movie\\Views\\Movies\\Index.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-12T18:49:38.769Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MoviesController.cs",
+              "DocumentMoniker": "E:\\C-Sharp\\Week-49\\MVC-Movie\\MVC-Movie\\Controllers\\MoviesController.cs",
+              "RelativeDocumentMoniker": "MVC-Movie\\Controllers\\MoviesController.cs",
+              "ToolTip": "E:\\C-Sharp\\Week-49\\MVC-Movie\\MVC-Movie\\Controllers\\MoviesController.cs",
+              "RelativeToolTip": "MVC-Movie\\Controllers\\MoviesController.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAowFAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-12T14:50:54.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\C-Sharp\\Week-49\\MVC-Movie\\MVC-Movie\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MVC-Movie\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\C-Sharp\\Week-49\\MVC-Movie\\MVC-Movie\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MVC-Movie\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-15T09:04:17.941Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

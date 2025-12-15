@@ -1,0 +1,103 @@
+﻿@model MVC_Movie.Models.Movie
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Movie</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genre" class="control-label"></label>
+                <input asp-for="Genre" class="form-control" />
+                <span asp-validation-for="Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rating"></label>
+                <input asp-for="Rating" type="number" class="form-control" step="0.1" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none;">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="FileForm" class="form-label"></label>
+                <input asp-for="FileForm" type="file" class="form-control" onchange="previewImage(event)" />
+                <span asp-validation-for="FileForm" class="text-danger"></span>
+            </div>
+            <div id="preview-container" class="mb-3" style="display:none;">
+                <label>Image</label><br />
+                <img id="preview-image" style="max-width:400px; max-height:400px;" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        function previewImage(event) {
+            // Get the file input element and the preview elements
+            // from the event target
+            // event.target is the file input
+            const input = event.target;
+            // Get the preview container and image elements
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview-image");
+
+            // Check if a file is selected
+            // input.files is the FileList object
+            // input.files[0] is the first selected file
+            if (input.files && input.files[0]) {
+                // Create a FileReader to read the file
+                const reader = new FileReader();
+                // When the file is read, set the preview image source
+                // and make the preview container visible
+                reader.onload = function(e) {
+                    // Set the preview image source to the file data
+                    previewImage.src = e.target.result;
+                    // Show the preview container
+                    // "block" to make it visible"
+                    previewContainer.style.display = "block";
+                };
+                // Read the file as a Data URL (base64)
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                // No file selected, hide the preview container
+                // "none" to hide it
+                previewContainer.style.display = "none";
+                // Clear the preview image source
+                previewImage.src = "";
+            }
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

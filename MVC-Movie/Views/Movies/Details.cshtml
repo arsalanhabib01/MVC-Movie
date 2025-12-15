@@ -1,0 +1,40 @@
+﻿@model MVC_Movie.Models.Movie
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Movie Details</h1>
+<hr />
+
+<div class="row mt-4">
+
+    <!-- LEFT SIDE — IMAGE -->
+    <div class="col-md-4 text-center">
+        <img src="@Url.Content($"~/images/{@Model.FileName}")"
+             alt="Movie Image"
+             class="img-fluid mb-3 rounded border"
+             style="height:450px; width:100%; object-fit:fill;" />
+    </div>
+
+    <!-- RIGHT SIDE — DETAILS -->
+    <div class="col-md-8">
+
+        <h2 class="mb-5">@Model.Title</h2>
+
+        <p><strong>Genre:</strong> @Model.Genre</p>
+        <p><strong>Release Date:</strong> @Model.ReleaseDate.ToShortDateString()</p>
+        <p><strong>Rating:</strong> <span>⭐</span> @Model.Rating /10</p>
+        <p class="mb-5"><strong>Storyline:</strong> @Model.Description</p>
+
+        <a class="btn btn-primary me-2" style="width: 100px"
+           asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+        <a class="btn btn-danger" style="width: 100px"
+           asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

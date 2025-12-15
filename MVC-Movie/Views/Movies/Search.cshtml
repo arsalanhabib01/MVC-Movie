@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MVC_Movie.Models.Movie>
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <!-- SEARCH BAR -->
+        <form asp-action="Search" method="get" class="mt-2 mb-2">
+            <div class="input-group">
+                <input type="text" name="searchString" class="form-control" placeholder="Search by movie title..." />
+                <button class="btn btn-primary" style="width: 150px">Search</button>
+            </div>
+        </form>
+     </div>
+</div>
+
+<!-- MOVIE CARDS -->
+<div class="row mt-5">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-2 mb-5">
+            <div class="card text-success" style="width: 11rem;">
+                <!-- MOVIE IMAGE -->
+                @if (!string.IsNullOrEmpty(item.FileName))
+                {
+					<a style=" width: 100%"
+					   asp-action="Details" asp-route-id="@item.Id">
+						<img src="~/images/@item.FileName"
+							 class="card-img-top"
+							 style="height:300px; width:100%; object-fit:fill;" />
+					</a>
+                    <div style="position:absolute; top:5px; left:5px;
+                                color: white; background-color: rgba(0,0,0,0.6);
+                                padding:5px 5px; border-radius:5px;">
+                        <strong>@item.ReleaseDate.Year</strong>
+                    </div>
+
+                    <div style="position:absolute; top:5px; right:5px;
+                                background-color: rgba(0,0,0,0.6);
+                                padding:5px 5px; border-radius:5px;">
+                        <strong style="color:red;">HD</strong>
+                    </div>
+
+                    <div style="position:absolute; bottom:5px; right:5px;
+                                background-color: rgba(0,0,0,0.6);
+                                padding:5px 5px; border-radius:5px;">
+                        <span>⭐</span>
+                        <strong style="color:darkorange;">@item.Rating</strong>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center p-5 text-muted">
+                        <span>No Image</span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<!-- IF EMPTY -->
+@if (!Model.Any())
+{
+    <p class="text-muted text-center">No movies found.</p>
+}
+
