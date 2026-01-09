@@ -47,7 +47,7 @@
             {
                 <div id="preview-container" class="mb-3">
                     <label>current image:</label><br />
-                    <img id="preview-image" src="~/images/@Model.FileName" style="max-width:300px;" />
+                    <img id="preview-image" src="~/images/@Model.FileName" style="max-width:100px;" />
                 </div>
             }
 
@@ -58,17 +58,20 @@
                 <span asp-validation-for="FileForm" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">
+                    Save
+                </button>
+                <a class="btn btn-outline-secondary"
+                   asp-action="Index">
+                    Back to List
+                </a>
             </div>
 
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     <script>

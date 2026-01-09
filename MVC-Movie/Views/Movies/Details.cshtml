@@ -27,14 +27,19 @@
         <p><strong>Rating:</strong> <span>⭐</span> @Model.Rating /10</p>
         <p class="mb-5"><strong>Storyline:</strong> @Model.Description</p>
 
-        <a class="btn btn-primary me-2" style="width: 100px"
-           asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-outline-secondary"
+           asp-action="Index">Back to List</a>
 
-        <a class="btn btn-danger" style="width: 100px"
-           asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+        @if (User.IsInRole("Administrator"))
+        {
+            <div class="float-end">
+                <a class="btn btn-primary me-2" style="width: 100px"
+                asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+                <a class="btn btn-danger" style="width: 100px"
+                asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+            </div>
+        }
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
