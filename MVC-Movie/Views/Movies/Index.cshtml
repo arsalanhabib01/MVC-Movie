@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Movies";
+    bool isAdmin = User.IsInRole("Administrator");
 }
 
 <div class="card">
@@ -15,16 +16,35 @@
         </div>
     </div>
     <div class="card-body">
-        <!--Movie Wallpaper-->
-        <img src="~/images/Movie-wallpaper.jpg"
-             class="card-img-top"
-             style="height:400px; object-fit:cover;" />
-        <div style="position:absolute; top:85px; color: white;
-                    background-color: rgba(0,0,0,0.6);
-                    text-align:center; width:97.2%; height:80%;">
-            <h2 style="padding-top:150px;">HollyView</h2>
-            <p>The Action has just begun</p>
-        </div>
+
+        @if (isAdmin)
+        {
+            <!--Admin Wallpaper-->
+            <img src="~/images/Admin_wallpaper.jpg" alt="Admin Wallpaper"
+                 class="card-img-top"
+                 style="height:400px; object-fit:cover;" />
+
+            <div style="position:absolute; top:85px; color: white;
+                        background-color: rgba(0,0,0,0.6);
+                        text-align:center; width:97.2%; height:80%;">
+            </div>
+            
+        } 
+        else
+        {
+            <!--Movie Wallpaper-->
+            <img src="~/images/Movie-wallpaper.jpg" alt="Movie Wallpaper"
+                 class="card-img-top"
+                style="height:400px; object-fit:cover;" />
+
+            <div style="position:absolute; top:85px; color: white;
+                        background-color: rgba(0,0,0,0.6);
+                        text-align:center; width:97.2%; height:80%;">
+                <h2 style="padding-top:150px;">HollyView</h2>
+                <p>The Action has just begun</p>
+            </div>
+        }
+
     </div>
 </div>
 
@@ -32,7 +52,7 @@
 <div class="row mt-5">
     @foreach (var item in Model)
     {
-        <div class="col-md-2 mb-5">
+        <div class="col-md-2 mb-3">
             <div class="card text-success" style="width: 11rem;">
                 <!-- MOVIE IMAGE -->
                 @if (!string.IsNullOrEmpty(item.FileName))
