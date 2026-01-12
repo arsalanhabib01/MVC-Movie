@@ -28,15 +28,49 @@ namespace MVC_Movie.Controllers
         }
 
         // GET: Movies/Search
-        public async Task<IActionResult> Search(string searchString)
+        //public async Task<IActionResult> Search(string searchString)
+        //{
+        //    var Movies = await _context.Movie.ToListAsync();
+        //    if (!string.IsNullOrEmpty(searchString))
+        //    {
+        //        Movies = Movies.Where(movie => movie.Title.Contains(searchString)
+        //        || movie.Genre.Contains(searchString)).ToList();
+        //    }
+        //    return View(Movies);
+        //}
+
+        // GET: Movies/Search
+        public async Task<IActionResult> Search(string searchString, string selectedGenre)
         {
-            var Movies = await _context.Movie.ToListAsync();
+            // Dropdown values
+            List<SelectListItem> genres = new List<SelectListItem>()
+            {
+                new SelectListItem { Text = "All Genres", Value = "" },
+                new SelectListItem { Text = "Action", Value = "Action" },
+                new SelectListItem { Text = "Comedy", Value = "Comedy" },
+                new SelectListItem { Text = "Drama", Value = "Drama" },
+                new SelectListItem { Text = "Adventure", Value = "Adventure" },
+                new SelectListItem { Text = "Horror", Value = "Horror" }
+            };
+
+            ViewBag.SelectGenres = genres;
+
+            var movies = _context.Movie.AsQueryable();
+
+            // Filter by Genre first
+            if (!string.IsNullOrEmpty(selectedGenre))
+            {
+                //movies = movies.Where(m => m.Genre == selectedGenre);
+                movies = movies.Where(m => m.Genre.Contains(selectedGenre));
+            }
+
+            // Then filter by Title
             if (!string.IsNullOrEmpty(searchString))
             {
-                Movies = Movies.Where(movie => movie.Title.Contains(searchString)
-                || movie.Genre.Contains(searchString)).ToList();
+                movies = movies.Where(m => m.Title.Contains(searchString));
             }
-            return View(Movies);
+
+            return View(await movies.ToListAsync());
         }
 
         // GET: Movies/Details/5

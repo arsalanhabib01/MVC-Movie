@@ -4,7 +4,7 @@
     ViewData["Title"] = "Search";
 }
 
-<div class="card text-center">
+@* <div class="card text-center">
     <div class="card-header">
         <!-- SEARCH BAR -->
         <form asp-action="Search" method="get" class="mt-2 mb-2">
@@ -14,7 +14,36 @@
             </div>
         </form>
      </div>
+</div> *@
+
+
+<div class="card text-center">
+    <div class="card-header">
+        <form asp-action="Search" method="get" class="mt-2 mb-2">
+            <div class="input-group">
+
+                <!-- GENRE DROPDOWN -->
+                <select name="selectedGenre" class="form-select" style="max-width: 150px">
+                    @foreach (var genre in ViewBag.SelectGenres)
+                    {
+                        <option value="@genre.Value">@genre.Text</option>
+                    }
+                </select>
+
+                <!-- SEARCH INPUT -->
+                <input type="text"
+                       name="searchString"
+                       class="form-control"
+                       placeholder="Search by movie title..." />
+
+                <button class="btn btn-primary" style="width: 150px">
+                    Search
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+
 
 <!-- MOVIE CARDS -->
 <div class="row mt-5">

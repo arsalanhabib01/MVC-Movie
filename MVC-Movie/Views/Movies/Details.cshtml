@@ -25,7 +25,7 @@
         <p><strong>Genre:</strong> @Model.Genre</p>
         <p><strong>Release Date:</strong> @Model.ReleaseDate.ToShortDateString()</p>
         <p><strong>Rating:</strong> <span>⭐</span> @Model.Rating /10</p>
-        <p class="mb-5"><strong>Storyline:</strong> @Model.Description</p>
+        <p class="mb-5" style="text-align: justify;"><strong>Storyline:</strong> @Model.Description</p>
 
         <a class="btn btn-outline-secondary"
            asp-action="Index">Back to List</a>

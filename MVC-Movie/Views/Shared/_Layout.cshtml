@@ -9,37 +9,49 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MVC_Movie.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">           
                <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVC_Movie</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <!--Movie Logo-->
+                    <img src="~/images/Movie-Logo.png" alt="Movie Logo"
+                         style="height:65px; object-fit:cover;" />
+                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-@*                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li> *@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Movie</a>
+
+                        <li class="nav-item ms-3">
+                            Movies
+                            <a class="nav-link text-dark icon-btn" asp-area="" 
+                                asp-controller="Movies" asp-action="Index">
+                                <i class="fa-solid fa-video" style="font-size: 1.1rem;"></i>
+                             </a>
                         </li>
                         
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Search">Search</a>
+                        <li class="nav-item ms-3">
+                            Search
+                            <a class="nav-link text-dark icon-btn" asp-area="" 
+                                asp-controller="Movies" asp-action="Search">
+                                <i class="fa-solid fa-magnifying-glass ms-1" style="font-size: 1.1rem;"></i>
+                            </a>
                         </li>
 
                         @if (User.IsInRole("Administrator"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area=""
-                                   asp-controller="Movies" asp-action="Create">Create</a>
+                            <li class="nav-item ms-3">
+                                Add Movie
+                                <a class="nav-link text-dark icon-btn" asp-area=""
+                                   asp-controller="Movies" asp-action="Create">
+                                    <i class="fa-solid fa-film ms-3" style="font-size: 1.1rem;"></i>
+                                </a>
                             </li>
                         }
                     </ul>
