@@ -30,6 +30,47 @@ body {
   text-align: start;
 }
 
+/*Styling Badge Size*/
 .navbar .badge {
     font-size: 0.7rem;
+}
+
+/*Styling Menu Icon*/
+.icon-btn i {
+    font-size: 24px;
+    color: #666;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.icon-btn:hover i {
+    color: red;
+    transform: scale(1.2);
+}
+
+/*Styling User Icon*/
+.user-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-icon::after {
+     content: attr(data-user);
+     position: absolute;
+     bottom: -35px;
+     left: 10%;
+     transform: translateX(-50%);
+     background: #000;
+     color: #fff;
+     padding: 4px 8px;
+     font-size: 0.75rem;
+     border-radius: 4px;
+     white-space: nowrap;
+     opacity: 0;
+     pointer-events: none;
+     transition: opacity 0.2s ease;
+     z-index: 1000;
+}
+
+.user-icon:hover::after {
+     opacity: 1;
 }
