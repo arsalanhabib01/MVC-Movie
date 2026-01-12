@@ -43,8 +43,16 @@ body {
 }
 
 .icon-btn:hover i {
-    color: red;
     transform: scale(1.2);
+    /*color: red;*/
+}
+
+.icon-btn.admin:hover i {
+    color: red;
+}
+
+.icon-btn.user:hover i {
+    color: green;
 }
 
 /*Styling User Icon*/

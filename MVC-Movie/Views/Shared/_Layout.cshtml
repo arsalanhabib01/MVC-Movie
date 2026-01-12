@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool isAdmin = User.IsInRole("Administrator");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,25 +34,26 @@
 
                         <li class="nav-item ms-3">
                             Movies
-                            <a class="nav-link text-dark icon-btn" asp-area="" 
-                                asp-controller="Movies" asp-action="Index">
+                            <a class="nav-link text-dark icon-btn @(isAdmin ? "admin" : "user")" asp-area=""
+                               asp-controller="Movies" asp-action="Index">
                                 <i class="fa-solid fa-video" style="font-size: 1.1rem;"></i>
                              </a>
                         </li>
                         
                         <li class="nav-item ms-3">
                             Search
-                            <a class="nav-link text-dark icon-btn" asp-area="" 
-                                asp-controller="Movies" asp-action="Search">
+                            <a class="nav-link text-dark icon-btn @(isAdmin ? "admin" : "user")" asp-area=""
+                               asp-controller="Movies" asp-action="Search">
                                 <i class="fa-solid fa-magnifying-glass ms-1" style="font-size: 1.1rem;"></i>
                             </a>
                         </li>
 
-                        @if (User.IsInRole("Administrator"))
+                        @* @if (User.IsInRole("Administrator"))  *@
+                        @if (isAdmin)
                         {
                             <li class="nav-item ms-3">
                                 Add Movie
-                                <a class="nav-link text-dark icon-btn" asp-area=""
+                                <a class="nav-link text-dark icon-btn @(isAdmin ? "admin" : "user")" asp-area=""
                                    asp-controller="Movies" asp-action="Create">
                                     <i class="fa-solid fa-film ms-3" style="font-size: 1.1rem;"></i>
                                 </a>

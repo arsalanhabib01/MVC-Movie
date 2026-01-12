@@ -1,4 +1,5 @@
 ﻿@model MVC_Movie.Models.Movie
+@using System.Globalization
 
 @{
     ViewData["Title"] = "Details";
@@ -24,7 +25,7 @@
 
         <p><strong>Genre:</strong> @Model.Genre</p>
         <p><strong>Release Date:</strong> @Model.ReleaseDate.ToShortDateString()</p>
-        <p><strong>Rating:</strong> <span>⭐</span> @Model.Rating /10</p>
+        <p><strong>Rating:</strong> <span>⭐</span> @Model.Rating.ToString("0.0", CultureInfo.InvariantCulture) /10</p>
         <p class="mb-5" style="text-align: justify;"><strong>Storyline:</strong> @Model.Description</p>
 
         <a class="btn btn-outline-secondary"

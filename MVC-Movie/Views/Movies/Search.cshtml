@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<MVC_Movie.Models.Movie>
+@using System.Globalization
 
 @{
     ViewData["Title"] = "Search";
@@ -17,7 +18,7 @@
 </div> *@
 
 
-<div class="card text-center">
+<div class="card text-center mt-5">
     <div class="card-header">
         <form asp-action="Search" method="get" class="mt-2 mb-2">
             <div class="input-group">
@@ -76,7 +77,7 @@
                                 background-color: rgba(0,0,0,0.6);
                                 padding:5px 5px; border-radius:5px;">
                         <span>⭐</span>
-                        <strong style="color:darkorange;">@item.Rating</strong>
+                        <strong style="color:darkorange;">@item.Rating.ToString("0.0", CultureInfo.InvariantCulture)</strong>
                     </div>
                 }
                 else
