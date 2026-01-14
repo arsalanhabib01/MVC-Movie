@@ -2,45 +2,74 @@
 @using System.Globalization
 
 @{
+    Layout = "_FullscreenLayout";
     ViewData["Title"] = "Details";
 }
 
-<h1>Movie Details</h1>
-<hr />
+<h1 class="fw-bold mb-4 text-white">
+	<i class="fa-solid fa-video me-2 text-info"></i>
+	Movie Details
+</h1>
 
-<div class="row mt-4">
+<div class="row bg-white rounded shadow-lg p-4">
 
-    <!-- LEFT SIDE — IMAGE -->
-    <div class="col-md-4 text-center">
-        <img src="@Url.Content($"~/images/{@Model.FileName}")"
-             alt="Movie Image"
-             class="img-fluid mb-3 rounded border"
-             style="height:450px; width:100%; object-fit:fill;" />
-    </div>
+	<!-- LEFT: IMAGE -->
+	<div class="col-md-4 position-relative text-center mb-4 mb-md-0">
 
-    <!-- RIGHT SIDE — DETAILS -->
-    <div class="col-md-8">
+		<img src="@Url.Content($"~/images/{Model.FileName}")"
+			 class="img-fluid rounded border"
+			 style="height:450px; width:100%; object-fit:cover;" />
 
-        <h2 class="mb-5">@Model.Title</h2>
+		<!-- RATING BADGE -->
+		<div class="position-absolute top-0 start-0 mt-2 ms-3 px-2 py-1 rounded"
+			 style="background:rgba(0,0,0,0.7);">
+			<span>⭐</span>
+			<strong class="text-warning">
+				@Model.Rating.ToString("0.0", CultureInfo.InvariantCulture)
+			</strong>
+		</div>
+	</div>
 
-        <p><strong>Genre:</strong> @Model.Genre</p>
-        <p><strong>Release Date:</strong> @Model.ReleaseDate.ToShortDateString()</p>
-        <p><strong>Rating:</strong> <span>⭐</span> @Model.Rating.ToString("0.0", CultureInfo.InvariantCulture) /10</p>
-        <p class="mb-5" style="text-align: justify;"><strong>Storyline:</strong> @Model.Description</p>
+	<!-- RIGHT: DETAILS -->
+	<div class="col-md-8">
 
-        <a class="btn btn-outline-secondary"
-           asp-action="Index">Back to List</a>
+		<h2 class="fw-bold mb-4 border-start border-4 ps-3 border-primary text-uppercase">
+			@Model.Title
+		</h2>
 
-        @if (User.IsInRole("Administrator"))
-        {
-            <div class="float-end">
-                <a class="btn btn-primary me-2" style="width: 100px"
-                asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+		<p>
+			<strong class="text-muted">Genre:</strong>
+			@foreach (var genre in Model.Genre.Split(','))
+			{
+				<span class="badge rounded-pill bg-primary bg-opacity-75 ms-1">
+					@genre.Trim()
+				</span>
+			}
+		</p>
 
-                <a class="btn btn-danger" style="width: 100px"
-                asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-            </div>
-        }
-    </div>
+		<p>
+			<strong class="text-muted">Release Date:</strong>
+			<i class="bi bi-calendar-event ms-1 me-1"></i>
+			@Model.ReleaseDate.ToString("MMM dd, yyyy")
+		</p>
+
+		<p class="mb-4" style="text-align: justify;">
+			<strong class="text-muted">Story Line:</strong><br />
+			@Model.Description
+		</p>
+
+		<a class="btn btn-outline-secondary px-4"
+		   asp-action="Index">Back to List</a>
+
+		@if (User.IsInRole("Administrator"))
+		{
+			<div class="float-end">
+				<a class="btn btn-primary me-2" style="width: 100px"
+				   asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+				<a class="btn btn-danger" style="width: 100px"
+				   asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+			</div>
+		}
+	</div>
 </div>
-

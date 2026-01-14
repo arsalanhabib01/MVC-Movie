@@ -9,10 +9,14 @@
 <div class="card mt-5">
     <div class="card-header">
         <div class="d-flex mt-2 mb-2">
-            <h4>List of all the Movies</h4>
+            <h4 class="fw-bold">
+                <i class="bi bi-collection-play me-2 
+                    @(isAdmin ? "text-danger" : "text-primary")"></i>
+                List of Movies</h4>
             <!--Search Icon-->
             <a asp-action="Search" class="ms-auto">
-                <i class="bi bi-search" style="font-size: 1.3rem;"></i>
+                <i class="bi bi-search @(isAdmin ? "text-danger" : "text-primary")" 
+                style="font-size: 1.3rem;"></i>
             </a>
         </div>
     </div>
