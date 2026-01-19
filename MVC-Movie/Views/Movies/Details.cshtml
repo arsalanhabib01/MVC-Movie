@@ -6,12 +6,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1 class="fw-bold mb-4 text-white">
-	<i class="fa-solid fa-video me-2 text-info"></i>
-	Movie Details
-</h1>
-
-<div class="row bg-white rounded shadow-lg p-4">
+<div class="row bg-white rounded-3 shadow-lg p-4 mt-4">
 
 	<!-- LEFT: IMAGE -->
 	<div class="col-md-4 position-relative text-center mb-4 mb-md-0">
@@ -33,9 +28,15 @@
 	<!-- RIGHT: DETAILS -->
 	<div class="col-md-8">
 
-		<h2 class="fw-bold mb-4 border-start border-4 ps-3 border-primary text-uppercase">
-			@Model.Title
-		</h2>
+		<div class="d-flex justify-content-between">
+			<h2 class="fw-bold mb-4 border-start border-4 ps-3 border-primary text-uppercase">
+				@Model.Title
+			</h2>
+
+			<a class="link-secondary link-primary-hover" asp-action="Index">
+				<i class="fa fa-times-circle fs-3"></i>
+			</a>
+		</div>
 
 		<p>
 			<strong class="text-muted">Genre:</strong>
@@ -53,23 +54,77 @@
 			@Model.ReleaseDate.ToString("MMM dd, yyyy")
 		</p>
 
-		<p class="mb-4" style="text-align: justify;">
-			<strong class="text-muted">Story Line:</strong><br />
-			@Model.Description
+		<p class="alert alert-info mb-4" style="text-align: justify;">
+			<strong>Story Line:</strong><br />
+			<span class="">@Model.Description</span>
 		</p>
 
-		<a class="btn btn-outline-secondary px-4"
-		   asp-action="Index">Back to List</a>
+		<!-- SELECT LANGUAGE -->
+		<select id="languageSelect" class="form-select mb-3" style="max-width: 150px">
+			<option value="">All Languages</option> 
+			<option value="English">English</option>
+			<option value="Swedish">Swedish</option>
+			<option value="Norwegian">Norwegian</option>
+		</select>
+
+		<!-- RENT A MOVIE -->
+		@if (@Model.IsAvailable)
+		{		
+			<form asp-controller="MovieRentals"
+				  asp-action="RentMovie"
+				  asp-route-movieId="@Model.Id"
+				  method="post" class="d-inline">
+				<span class="badge bg-success me-2">
+					<i class="bi bi-check-circle-fill"></i> Available
+				</span>
+
+				<button id="rentButton" type="submit" class="btn btn-primary" disabled>
+					<i class="bi bi-cart-plus-fill"></i> Rent Now
+				</button>
+			</form>
+		}
+		else
+		{
+			<span class="badge bg-warning text-dark me-2">
+				<i class="bi bi-exclamation-circle"></i> Not Available
+			</span>
+
+			<button class="btn btn-secondary" disabled>
+				<i class="bi bi-lock-fill"></i> Rented
+			</button>
+		}
+
 
 		@if (User.IsInRole("Administrator"))
 		{
 			<div class="float-end">
-				<a class="btn btn-primary me-2" style="width: 100px"
-				   asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+				<a class="btn btn-warning me-1"
+				   asp-action="Edit" asp-route-id="@Model.Id">
+				   <i class="fa fa-pencil text-white"></i>
+			    </a>
 
-				<a class="btn btn-danger" style="width: 100px"
-				   asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+				<a class="btn btn-danger"
+				   asp-action="Delete" asp-route-id="@Model.Id">
+					<i class="fa fa-trash"></i>
+				</a>
+
 			</div>
 		}
 	</div>
 </div>
+
+<!-- JS TO ENABLE A BUTTON -->
+<script>
+	const languageSelect = document.getElementById('languageSelect');
+	const rentButton = document.getElementById('rentButton');
+
+	languageSelect.addEventListener('change', function () {
+
+		// Enable Rent button for all selections
+		if (this.value == null) {
+			rentButton.disabled = true;
+		} else {
+			rentButton.disabled = false;
+		}
+	});
+</script>

@@ -24,6 +24,22 @@ namespace MVC_Movie.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
+            // Get expired rentals
+            var expiredRentals = await _context.MovieRentals
+                .Include(r => r.Movie)
+                .Where(r => r.DueAt < DateTime.Now && r.Status == RentalStatus.Active)
+                .ToListAsync();
+            
+            foreach (var rental in expiredRentals)
+            {
+                rental.Status = RentalStatus.Expired;
+                // make the movie available for others
+                rental.Movie.IsAvailable = true; 
+                                                 
+                //_context.MovieRentals.Remove(rental);
+            }
+            await _context.SaveChangesAsync();
+
             return View(await _context.Movie.ToListAsync());
         }
 
@@ -129,10 +145,12 @@ namespace MVC_Movie.Controllers
                     }
 
                     movie.FileName = fileName;
+                    movie.IsAvailable = true;
                 }
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = movie.Id });
             }
             return View(movie);
         }
@@ -199,7 +217,8 @@ namespace MVC_Movie.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id });
             }
 
             return View(movie);

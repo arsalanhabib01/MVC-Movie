@@ -20,5 +20,6 @@ namespace MVC_Movie.Models
         [NotMapped]
         public IFormFile? FileForm { get; set; }
 
+        public bool IsAvailable { get; set; }
     }
 }

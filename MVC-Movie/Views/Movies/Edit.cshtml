@@ -5,23 +5,37 @@
     ViewData["Title"] = "Edit Movie";
 }
 
-<h1 class="fw-bold text-center mb-4 text-white">
-	<i class="fa fa-pencil me-2 text-warning"></i>
-	Edit Movie
-</h1>
-
 <div class="row justify-content-center">
-	<div class="col-lg-8 col-xl-7">
+	<div class="col-lg-8 col-xl-6">
 
 		<div class="card shadow-lg border-0 rounded-4">
-			<div class="card-body p-4 p-md-5">
+			
+			<div class="card-body p-4 p-md-4">
+
+				<div class="position-relative mb-4 mt-1">
+
+					<!-- Centered title -->
+					<h3 class="fw-bold text-center m-0">
+						<i class="fa fa-pencil me-2 text-warning"></i>
+						Edit Movie
+					</h3>
+
+					<!-- Right aligned close icon -->
+					<a class="position-absolute top-50 end-0 translate-middle-y
+					   text-decoration-none text-muted"
+					   asp-action="Details"
+					   asp-route-id="@Model.Id">
+						<i class="fa-solid fa-xmark fs-4"></i>
+					</a>
+				</div>
 
 				<form asp-action="Edit" enctype="multipart/form-data">
 
 					<input type="hidden" asp-for="Id" />
 					<input type="hidden" asp-for="UserId" />
 					<input type="hidden" asp-for="FileName" />
-
+					<input type="hidden" asp-for="IsAvailable" />
+					
 					<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
 					<div class="mb-3">
@@ -29,14 +43,20 @@
 						<input asp-for="Title" class="form-control" />
 					</div>
 
-					<div class="mb-3">
-						<label asp-for="ReleaseDate" class="form-label fw-semibold"></label>
-						<input asp-for="ReleaseDate" class="form-control" type="date" />
-					</div>
+					<div class="row mb-3">
+						<div class="col-md-4">
+							<label asp-for="ReleaseDate" class="form-label fw-semibold"></label>
+							<input asp-for="ReleaseDate" class="form-control" type="date" />
+						</div>
 
-					<div class="mb-3">
-						<label asp-for="Genre" class="form-label fw-semibold"></label>
-						<input asp-for="Genre" class="form-control" />
+						<div class="col-md-5">
+							<label asp-for="Genre" class="form-label fw-semibold"></label>
+							<input asp-for="Genre" class="form-control" />
+						</div>
+						<div class="col-md-3">
+							<label asp-for="Rating" class="form-label fw-semibold"></label>
+							<input asp-for="Rating" class="form-control" type="number" step="0.1" />
+						</div>
 					</div>
 
 					<div class="mb-3">
@@ -44,39 +64,37 @@
 						<textarea asp-for="Description" class="form-control" rows="3"></textarea>
 					</div>
 
-					<div class="mb-4">
-						<label asp-for="Rating" class="form-label fw-semibold"></label>
-						<input asp-for="Rating" class="form-control" type="number" step="0.1" />
-					</div>
+					<div class="row">
 
-					<!-- IMAGE PREVIEW -->
-					@if (!string.IsNullOrEmpty(Model.FileName))
-					{
-						<div class="mb-4 text-center">
-							<label class="form-label fw-semibold d-block">Current Poster</label>
-							<img src="~/images/@Model.FileName"
-								 class="img-thumbnail shadow-sm"
-								 style="max-width:150px;" />
+						<!-- IMAGE PREVIEW -->
+						@if (!string.IsNullOrEmpty(Model.FileName))
+						{
+							<div id="preview-container" class="col-md-5 mb-4 text-center">
+								<label class="form-label fw-semibold d-block">
+									Current Poster</label>
+								<img id="preview-image" src="~/images/@Model.FileName"
+									 class="img-thumbnail shadow-sm"
+									 style="max-width:150px;" />
+							</div>
+						}
+
+
+						<!-- FILE UPLOAD -->
+						<div class="col-md-7 mb-4">
+							<label asp-for="FileForm" class="form-label fw-semibold"></label>
+							<input asp-for="FileForm" type="file" class="form-control" 
+								onchange="previewImage(event)" />
 						</div>
-					}
-
-					<!-- FILE UPLOAD -->
-					<div class="mb-4">
-						<label asp-for="FileForm" class="form-label fw-semibold"></label>
-						<input asp-for="FileForm"
-							   type="file"
-							   class="form-control" />
-						<span asp-validation-for="FileForm" class="text-danger"></span>
 					</div>
 
-					<div class="d-flex justify-content-between">
+					<div class="d-flex justify-content-between mt-2">
 						<a class="btn btn-outline-secondary px-4"
 						   asp-action="Details" asp-route-id="@Model.Id">
-							<i class="fa-sharp fa-solid fa-chevron-left me-1"></i>
-							Back
+							Cancel
 						</a>
 						<button type="submit" class="btn btn-primary px-4">
-							<i class="fa fa-save me-1"></i> Save Changes
+							<i class="fa fa-save me-1"></i> 
+							Save Changes
 						</button>
 					</div>
 
