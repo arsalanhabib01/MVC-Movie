@@ -24,6 +24,7 @@ else
                 <th>Rented On</th>
                 <th>Due Date</th>
                 <th>Returned On</th>
+                <th>Rental Fee</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -52,6 +53,11 @@ else
                     {
                         <td><span class="text-muted">—</span></td>
                     }
+
+                    <td>
+                        <span class="text-muted">$</span>
+                        @rental.RentalPrice.00
+                    </td>
 
                     <td>
                         @if (rental.Status == RentalStatus.Active)

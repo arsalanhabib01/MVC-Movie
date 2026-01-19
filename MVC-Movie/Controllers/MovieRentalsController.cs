@@ -28,13 +28,17 @@ namespace MVC_Movie.Controllers
             if (movie == null)
                 return NotFound("Movie not found");
 
+            // Create a random number generator
+            var random = new Random();
+
             var rental = new MovieRental
             {
                 MovieId = movieId,
                 UserId = userId,
                 RentedAt = DateTime.UtcNow,
                 DueAt = DateTime.UtcNow.AddDays(3),
-                Status = RentalStatus.Active
+                Status = RentalStatus.Active,
+                RentalPrice = random.Next(5, 15)
             };
 
             movie.IsAvailable = false;
