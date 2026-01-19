@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -35,7 +35,17 @@ body {
     font-size: 0.7rem;
 }
 
-/*Styling Menu Icon*/
+/* Menu Icon */
+.icon-btn {
+    width: 50px; 
+    height: 40px;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
 .icon-btn i {
     font-size: 24px;
     color: #666;
@@ -47,15 +57,33 @@ body {
     /*color: red;*/
 }
 
+/* ADMIN active */
+.icon-btn.admin.active {
+    background-color: rgba(220, 53, 69, 0.15); /* red bg */
+}
+
+.icon-btn.admin.active i {
+    color: #dc3545; /* red icon */
+}
+
 .icon-btn.admin:hover i {
     color: red;
+}
+    
+/* USER active */
+.icon-btn.user.active {
+    background-color: rgba(13, 110, 253, 0.15); 
+}
+
+.icon-btn.user.active i {
+    color: #0d6efd; 
 }
 
 .icon-btn.user:hover i {
     color: blue;
 }
 
-/*Styling User Icon*/
+/* Login: User Icon */
 .user-icon {
     position: relative;
     cursor: pointer;

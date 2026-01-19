@@ -6,72 +6,84 @@
     ViewData["Title"] = "Delete Movie";
 }
 
-<h1 class="fw-bold text-center mb-4 text-white">
-	<i class="fa fa-trash me-2 text-danger"></i>
-	Delete Movie
-</h1>
+<div class="row justify-content-center mt-5 btn-primary">
+	<div class="col-xl-7">
+		<div class="card shadow-lg border-0 rounded-4">
+			<div class="card-body">
 
+				<div class="row align-items-start">
 
-<div class="row bg-white rounded shadow-lg p-4 align-items-center">
+					<!-- LEFT: Image -->
+					<div class="col-md-4">
+						<img src="@Url.Content($"~/images/{Model.FileName}")"
+							 alt="Movie Image"
+							 class="img-fluid rounded"
+							 style="border:1px solid #ccc;" />
+					</div>
 
+					<!-- RIGHT: Text -->
+					<div class="col-md-8">
 
+						<div class="d-flex justify-content-between mt-2">
+							<h5 class="alert text-center rounded-3">
+								<i class="fa fa-trash"></i>
+								Trash:
+								<span class="text-uppercase text-danger">@Model.Title</span>
+							</h5>
 
-	<p class="text-center fw-semibold mb-4 alert alert-danger">
-		Are you sure you want to permanently delete this movie?
-	</p>
-    <dl>
-	    <dt class="col-sm-2">
-		    @Html.DisplayNameFor(model => model.Title)
-	    </dt>
-	    <dd class="col-sm-10">
-		    @Html.DisplayFor(model => model.Title)
-	    </dd>
-	    <dt class="col-sm-2">
-		    @Html.DisplayNameFor(model => model.ReleaseDate)
-	    </dt>
-	    <dd class="col-sm-10">
-		    @Html.DisplayFor(model => model.ReleaseDate)
-	    </dd>
-	    <dt class="col-sm-2">
-		    @Html.DisplayNameFor(model => model.Genre)
-	    </dt>
-	    <dd class="col-sm-10">
+							
+							<a class="text-decoration-none text-muted"
+							   asp-action="Details" asp-route-id="@Model.Id">
+								<i class="fa-solid fa-xmark fs-4"></i>
+							</a>
 
-		    @foreach (var genre in Model.Genre.Split(','))
-		    {
-			    <span class="badge rounded-pill bg-secondary bg-opacity-75 ms-1">
-				    @genre.Trim()
-			    </span>
-		    }
+						</div>
 
-	    </dd>
-	    <dt class="col-sm-2">
-		    @Html.DisplayNameFor(model => model.Rating)
-	    </dt>
-	    <dd class="col-sm-10">
-		    <span>⭐</span> @Model.Rating.ToString("0.0", CultureInfo.InvariantCulture) /10
-	    </dd>
-	    <dt class="col-sm-2">
-		    @Html.DisplayNameFor(model => model.Description)
-	    </dt>
-        <dd class="col-sm-10" style="text-align: justify;">
-		    @Html.DisplayFor(model => model.Description)
-	    </dd>
-	</dl>
+						<p class="mb-3">
+							<strong class="text-muted me-2">Release Date:</strong>
+							<i class="bi bi-calendar-event ms-1 me-1"></i>
+							@Model.ReleaseDate.ToString("MMM dd, yyyy")
+						</p>
+						<p class="mb-3">
+							<strong class="text-muted me-2">Genre:</strong>
+							@foreach (var genre in Model.Genre.Split(','))
+							{
+								<span class="badge rounded-pill bg-dark bg-opacity-75 ms-1">
+									@genre.Trim()
+								</span>
+							}
+						</p>
 
-	<form asp-action="Delete">
-		<input type="hidden" asp-for="Id" />
+						<p class="mb-4">
+							<strong class="text-muted me-2">Rating:</strong>
+							⭐ @Model.Rating.ToString("0.0", CultureInfo.InvariantCulture) /10
+						</p>
 
-		<div class="d-flex justify-content-between">
-			<a class="btn btn-outline-secondary px-4"
-			   asp-action="Details" asp-route-id="@Model.Id">
-				<i class="fa-sharp fa-solid fa-chevron-left me-1"></i>
-				Back
-			</a>
-			<button type="submit" class="btn btn-danger px-4">
-				Delete
-			</button>
+						<!-- Warning -->
+						<div class="alert alert-danger rounded-3">
+							<i class="fa fa-triangle-exclamation me-2"></i>
+							This action cannot be undone. Are you sure?
+						</div>
+					</div>
+					@* <br /> *@
+
+					<!-- Actions -->
+					<form asp-action="Delete">
+						<input type="hidden" asp-for="Id" />
+
+						<div class="d-flex justify-content-between mt-2">
+							<a class="btn btn-outline-secondary px-4"
+							   asp-action="Details" asp-route-id="@Model.Id">
+								Cancel
+							</a>
+							<button type="submit" class="btn btn-danger px-4">
+								Delete
+							</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
 		</div>
-	</form>
-
+	</div>
 </div>
