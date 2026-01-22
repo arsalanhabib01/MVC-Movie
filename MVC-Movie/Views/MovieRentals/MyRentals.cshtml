@@ -1,99 +1,101 @@
 ﻿@model IEnumerable<MVC_Movie.Models.MovieRental>
 
 @{
-    ViewData["Title"] = "My Rentals";
+	ViewData["Title"] = "My Rentals";
 }
+<div id="Background-Image">
 
-<h2 class="mb-4 mt-5">
-    <i class="bi bi-clock-fill text-success me-2"></i>
-    My Rentals
-</h2>
+	<h2 class="mb-5 mt-4 text-center">
+		<i class="bi bi-clock-fill text-success me-2"></i>
+		Rental History
+	</h2>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        You have not rented any movies yet.
-    </div>
-}
-else
-{
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Movie Title</th>
-                <th>Rented On</th>
-                <th>Due Date</th>
-                <th>Returned On</th>
-                <th>Rental Fee</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var rental in Model)
-            {
-                <tr>
-                    <td class="fw-bold text-muted">@rental.Movie.Title</td>
+	@if (!Model.Any())
+	{
+		<div class="alert alert-info">
+			You have not rented any movies yet.
+		</div>
+	}
+	else
+	{
+		<table class="table table-bordered table-striped">
+			<thead class="table-dark">
+				<tr>
+					<th><i class="bi bi-film"></i> Movie Title</th>
+					<th><i class="bi bi-calendar-event"></i> Rented On</th>
+					<th><i class="bi bi-calendar2-check"></i> Due Date</th>
+					<th><i class="bi bi-calendar2-check-fill"></i> Returned On</th>
+					<th><i class="bi bi-currency-dollar"></i> Rental Fee</th>
+					<th><i class="bi bi-info-circle"></i> Status</th>
+					<th><i class="bi bi-gear"></i> Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var rental in Model)
+				{
+					<tr>
+						<td class="fw-bold text-muted">@rental.Movie.Title</td>
 
-                    <td>
-                        @rental.RentedAt.ToString("dd MMM yyyy")
-                    </td>
+						<td>
+							@rental.RentedAt.ToString("dd MMM yyyy")
+						</td>
 
-                    <td>
-                        @rental.DueAt.ToString("dd MMM yyyy")
-                    </td>
+						<td>
+							@rental.DueAt.ToString("dd MMM yyyy")
+						</td>
 
-                    @if (rental.ReturnedAt != null)
-                    {
-                        <td>
-                            @rental.ReturnedAt.ToString()
-                        </td>
-                    }
-                    else
-                    {
-                        <td><span class="text-muted">—</span></td>
-                    }
+						@if (rental.ReturnedAt != null)
+						{
+							<td>
+								@rental.ReturnedAt.ToString()
+							</td>
+						}
+						else
+						{
+							<td><span class="text-muted">—</span></td>
+						}
 
-                    <td>
-                        <span class="text-muted">$</span>
-                        @rental.RentalPrice.00
-                    </td>
+						<td>
+							<span class="text-muted">$</span>
+							@rental.RentalPrice.00
+						</td>
 
-                    <td>
-                        @if (rental.Status == RentalStatus.Active)
-                        {
-                            <span class="badge bg-success">Active</span>
-                        }
-                        else if (rental.Status == RentalStatus.Returned)
-                        {
-                            <span class="badge bg-secondary">Returned</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-danger">Expired</span>
-                        }
-                    </td>
+						<td>
+							@if (rental.Status == RentalStatus.Active)
+							{
+								<span class="badge bg-success">Active</span>
+							}
+							else if (rental.Status == RentalStatus.Returned)
+							{
+								<span class="badge bg-secondary">Returned</span>
+							}
+							else
+							{
+								<span class="badge bg-danger">Expired</span>
+							}
+						</td>
 
-                    <td>
-                        @if (rental.Status == RentalStatus.Active)
-                        {
-                            <form asp-action="ReturnMovie"
-                                  asp-controller="MovieRentals"
-                                  asp-route-rentalId="@rental.Id"
-                                  method="post"
-                                  class="d-inline">
-                                <button type="submit" class="btn btn-sm btn-warning">
-                                    Return
-                                </button>
-                            </form>
-                        }
-                        else
-                        {
-                            <span class="text-muted">—</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+						<td>
+							@if (rental.Status == RentalStatus.Active)
+							{
+								<form asp-action="ReturnMovie"
+									  asp-controller="MovieRentals"
+									  asp-route-rentalId="@rental.Id"
+									  method="post"
+									  class="d-inline">
+									<button type="submit" class="btn btn-sm btn-warning">
+										Return
+									</button>
+								</form>
+							}
+							else
+							{
+								<span class="text-muted">—</span>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+</div>

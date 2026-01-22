@@ -104,6 +104,19 @@ namespace MVC_Movie.Controllers
                 return NotFound();
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            bool ownsMovie = false;
+
+
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                ownsMovie = await _context.MoviePurchases
+                    .AnyAsync(p => p.MovieId == id && p.UserId == userId);
+            }
+
+            ViewBag.OwnsMovie = ownsMovie;
+
             return View(movie);
         }
 

@@ -34,7 +34,7 @@
 			</h2>
 
 			<a class="link-secondary link-primary-hover" asp-action="Index">
-				<i class="fa fa-times-circle fs-3"></i>
+				<i class="fa fa-times-circle fs-2"></i>
 			</a>
 		</div>
 
@@ -59,72 +59,174 @@
 			<span class="">@Model.Description</span>
 		</p>
 
-		<!-- SELECT LANGUAGE -->
-		<select id="languageSelect" class="form-select mb-3" style="max-width: 150px">
-			<option value="">All Languages</option> 
-			<option value="English">English</option>
-			<option value="Swedish">Swedish</option>
-			<option value="Norwegian">Norwegian</option>
-		</select>
+		<div class="d-flex mb-4">
+			<!-- SELECT LANGUAGE -->
+			<select id="selectLanguage" class="form-select" style="max-width: 200px">
+				<option value="">Choose Language</option>
+				<option value="English">English</option>
+				<option value="Swedish">Swedish</option>
+				<option value="Norwegian">Norwegian</option>
+			</select>
 
-		<!-- RENT A MOVIE -->
-		@if (@Model.IsAvailable)
-		{		
-			<form asp-controller="MovieRentals"
-				  asp-action="RentMovie"
-				  asp-route-movieId="@Model.Id"
-				  method="post" class="d-inline">
-				<span class="badge bg-success me-2">
-					<i class="bi bi-check-circle-fill"></i> Available
-				</span>
-
-				<button id="rentButton" type="submit" class="btn btn-primary" disabled>
-					<i class="bi bi-cart-plus-fill"></i> Rent Now 
-				</button>
-			</form>
-		}
-		else
-		{
-			<span class="badge bg-warning text-dark me-2">
-				<i class="bi bi-exclamation-circle"></i> Not Available
-			</span>
-
-			<button class="btn btn-secondary" disabled>
-				<i class="bi bi-lock-fill"></i> Rented 
-			</button>
-		}
-
+			<!-- SELECT Purchase Type -->
+			<select id="purchaseType" class="form-select ms-3" style="max-width: 220px" disabled>
+				<option value="">Choose Purchase Type</option>
+				<option value="Buy">Buy Movie</option>
+				<option value="Rent">Rent Movie</option>
+			</select>
+		</div>
 
 		@if (User.IsInRole("Administrator"))
 		{
 			<div class="float-end">
 				<a class="btn btn-warning me-1"
 				   asp-action="Edit" asp-route-id="@Model.Id">
-				   <i class="fa fa-pencil text-white"></i>
-			    </a>
+					<i class="fa fa-pencil text-white"></i>
+				</a>
 
-				<a class="btn btn-danger"
+@* 				<a class="btn btn-danger"
 				   asp-action="Delete" asp-route-id="@Model.Id">
 					<i class="fa fa-trash"></i>
-				</a>
+				</a> *@
+
+
+				<!-- Button trigger modal -->
+				<button type="button"
+						class="btn btn-danger"
+						data-bs-toggle="modal"
+						data-bs-target="#deleteModal">
+					<i class="fa fa-trash"></i>
+				</button>
 
 			</div>
 		}
+
+		<!-- Deletion Modal-->
+		<div class="modal fade" id="deleteModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title text-muted me-2">
+							<i class="fa fa-trash text-danger"></i>
+							Confirm Deletion
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<div class="modal-body">
+						<i class="fa fa-triangle-exclamation me-1"></i>
+						Please confirm that you want to delete the movie
+						<span class="text-uppercase fw-bold text-muted">@Model.Title ?</span>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+							Cancel
+						</button>
+
+						<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+							<button type="submit" class="btn btn-danger">
+								Delete
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- RENT A MOVIE -->
+		<div id="rentSection" class="d-none">
+			@if (@Model.IsAvailable)
+			{
+				<form asp-controller="MovieRentals"
+					  asp-action="RentMovie"
+					  asp-route-movieId="@Model.Id"
+					  method="post" class="d-inline">
+					<span class="badge bg-success me-2">
+						<i class="bi bi-check-circle-fill"></i> Available
+					</span>
+
+					<button type="submit" class="btn btn-primary">
+						<i class="bi bi-cart-plus-fill"></i>
+						<span >Rent Now</span>
+						<span class="badge bg-warning text-dark">$7.00</span>
+					</button>
+
+				</form>
+			}
+			else
+			{
+				<span class="badge bg-warning text-dark me-2">
+					<i class="bi bi-exclamation-circle"></i> Not Available
+				</span>
+
+				<button class="btn btn-secondary" disabled>
+					<i class="bi bi-lock-fill"></i> Rented
+				</button>
+			}
+		</div>
+
+		<!-- Owen A MOVIE -->
+		<div id="buySection" class="d-none">
+			@if (ViewBag.OwnsMovie)
+			{
+				<span class="badge bg-success me-2">
+					<i class="bi bi-check-circle-fill"></i> Owned
+				</span>
+
+				<button class="btn btn-secondary" disabled>
+					<i class="bi bi-lock-fill"></i> Purchased
+				</button>
+			}
+			else
+			{
+				<form asp-controller="MoviePurchases"
+					  asp-action="BuyMovie"
+					  asp-route-movieId="@Model.Id"
+					  method="post" class="d-inline">
+
+					<span class="badge bg-success me-2">
+						<i class="bi bi-check-circle-fill"></i> Available
+					</span>
+
+					<button type="submit" class="btn btn-primary">
+						<i class="bi bi-cart-plus-fill"></i> Buy Now
+						<span class="badge bg-warning text-dark">$25.00</span>
+					</button>
+				</form>
+			}
+		</div>
+
 	</div>
 </div>
 
-<!-- JS TO ENABLE A BUTTON -->
-<script>
-	const languageSelect = document.getElementById('languageSelect');
-	const rentButton = document.getElementById('rentButton');
+@section Scripts {
+	<!-- JS TO ENABLE A BUTTON -->
+	<script>
+		const selectLanguage = document.getElementById('selectLanguage');
+		const purchaseOption = document.getElementById('purchaseType');
+		const rentSection = document.getElementById('rentSection');
+		const buySection = document.getElementById('buySection');
 
-	languageSelect.addEventListener('change', function () {
+		selectLanguage.addEventListener('change', function () {
+			purchaseOption.disabled = this.value === "";
+			purchaseOption.value = "";
+			rentSection.classList.add('d-none');
+			buySection.classList.add('d-none');
+		});
 
-		// Enable Rent button for all selections
-		if (this.value == null) {
-			rentButton.disabled = true;
-		} else {
-			rentButton.disabled = false;
-		}
-	});
-</script>
+		purchaseOption.addEventListener('change', function () {
+			rentSection.classList.add('d-none');
+			buySection.classList.add('d-none');
+
+			if (this.value === "Rent") {
+				rentSection.classList.remove('d-none');
+			}
+			else if (this.value === "Buy") {
+				buySection.classList.remove('d-none');
+			}
+		});
+	</script>
+}

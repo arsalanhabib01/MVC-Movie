@@ -29,7 +29,7 @@ namespace MVC_Movie.Controllers
                 return NotFound("Movie not found");
 
             // Create a random number generator
-            var random = new Random();
+            //var random = new Random();
 
             var rental = new MovieRental
             {
@@ -38,7 +38,8 @@ namespace MVC_Movie.Controllers
                 RentedAt = DateTime.UtcNow,
                 DueAt = DateTime.UtcNow.AddDays(3),
                 Status = RentalStatus.Active,
-                RentalPrice = random.Next(5, 15)
+                RentalPrice = 7
+                //RentalPrice = random.Next(5, 15)
             };
 
             movie.IsAvailable = false;
