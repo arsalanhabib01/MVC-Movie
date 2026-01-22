@@ -20,7 +20,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">           
                <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand" asp-area="" asp-controller="Movies" asp-action="Index">
 
                     <!--Movie Logo-->
                     <img src="~/images/Movie-Logo.png" alt="Movie Logo"
@@ -66,6 +66,19 @@
 							</li>
 						}
 
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item ms-3">
+                                My Purchases
+                                <a class="nav-link text-dark icon-btn ms-3 @(isAdmin ? "admin" : "user")
+                                        @(ViewContext.RouteData.Values["controller"]?.ToString() == "MoviePurchases"
+                                        && ViewContext.RouteData.Values["action"]?.ToString() == "MyPurchases"
+                                        ? "active" : "")" asp-controller="MoviePurchases" asp-action="MyPurchases">
+                                <i class="fa-solid fa-bag-shopping" style="font-size: 1.1rem;"></i>
+                            </a>
+                        </li>
+                                                }
+
                         @* @if (User.IsInRole("Administrator"))  *@
                         @if (isAdmin)
                         {
@@ -89,11 +102,38 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - MVC_Movie - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-dark text-light py-3 mt-auto">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+
+            <!-- Copyright -->
+            <div class="small mb-2 mb-md-0 me-2">&copy; 2025
+            
+            <span class="badge bg-warning text-dark">More Movies</span>
+            </div>
+
+            <!-- Links -->
+			<div>
+				<a asp-area="" asp-controller="Home" asp-action="Privacy"
+				   class="text-decoration-none text-light me-3">
+					Privacy
+				</a>
+
+				<a href="https://www.facebook.com/" target='_blank'>
+					<i class="fa-brands fa-facebook me-3"></i>
+				</a>
+
+				<a href="https://github.com/arsalanhabib01" target='_blank'>
+					<i class="fa-brands fa-github me-3"></i>
+				</a>
+
+				<a href="https://www.linkedin.com/in/arsalan-habib-9857088a/" target='_blank'>
+					<i class="fa-brands fa-linkedin"></i>
+				</a>
+
+			</div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

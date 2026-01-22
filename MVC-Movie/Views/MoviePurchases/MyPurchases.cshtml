@@ -1,0 +1,66 @@
+﻿@model IEnumerable<MVC_Movie.Models.MoviePurchase>
+
+@{
+    ViewData["Title"] = "My Purchases";
+}
+
+<div id="Background-Image">
+
+	<h2 class="mb-5 mt-4 text-center">
+		<i class="bi-gift-fill text-success me-2"></i>
+		Purchase History
+	</h2>
+
+	@if (!Model.Any())
+	{
+		<div class="alert alert-info">
+			You have not purchased any movies yet.
+		</div>
+	}
+	else
+	{
+		<table class="table table-bordered table-striped">
+			<thead class="table-dark">
+				<tr>
+					<th><i class="bi bi-film"></i> Movie Title</th>
+					<th><i class="bi bi-calendar2-check"></i> Transaction Date</th>
+					<th><i class="bi bi-currency-dollar"></i> Amount Paid</th>
+					<th><i class="bi bi-info-circle"></i> Transaction Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var purchase in Model)
+				{
+					<tr>
+						<td class="fw-bold text-muted">@purchase.Movie.Title</td>
+
+						<td>
+							@purchase.PurchaseDate.ToString("dd MMM yyyy")
+						</td>
+
+						<td>
+							<span class="text-muted">$</span>
+							@purchase.PurchasePrice.00
+						</td>
+
+
+						<td>
+							@if (purchase.Status == PurchaseStatus.Completed)
+							{
+								<span class="badge bg-success">Completed</span>
+							}
+							else if (purchase.Status == PurchaseStatus.Refunded)
+							{
+								<span class="badge bg-secondary">Refunded</span>
+							}
+							else
+							{
+								<span class="badge bg-danger">Cancelled</span>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+</div>

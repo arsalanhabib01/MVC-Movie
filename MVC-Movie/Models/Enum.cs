@@ -7,4 +7,11 @@
         Expired
     }
 
+    public enum PurchaseStatus
+    {
+        Completed,
+        Refunded,
+        Cancelled
+    }
+
 }

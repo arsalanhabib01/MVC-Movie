@@ -45,7 +45,7 @@
                 {
                     <li>
                         <a class="dropdown-item text-danger"
-                           asp-controller="Admin"  
+                           asp-controller="Admin"
                            asp-action="Index">
                             Admin Panel
                         </a>
@@ -57,7 +57,7 @@
                 <li>
                     <form asp-area="Identity"
                           asp-page="/Account/Logout"
-                          asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                          asp-route-returnUrl="@Url.Content("~/Identity/Account/Login")"
                           method="post">
                         <button type="submit" class="dropdown-item text-danger">
                             Logout
