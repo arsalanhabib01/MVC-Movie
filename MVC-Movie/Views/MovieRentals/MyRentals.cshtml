@@ -3,21 +3,22 @@
 @{
 	ViewData["Title"] = "My Rentals";
 }
-<div id="Background-Image">
 
-	<h2 class="mb-5 mt-4 text-center">
-		<i class="bi bi-clock-fill text-success me-2"></i>
-		Rental History
-	</h2>
+@if (!Model.Any())
+{
+	<div class="alert alert-info text-center mt-5">
+		You have not rented any movies yet.
+	</div>
+}
+else
+{
+	<div id="Background-Image">
 
-	@if (!Model.Any())
-	{
-		<div class="alert alert-info">
-			You have not rented any movies yet.
-		</div>
-	}
-	else
-	{
+		<h2 class="mb-5 mt-4 text-center">
+			<i class="bi bi-clock-fill text-success me-2"></i>
+			Rental History
+		</h2>
+
 		<table class="table table-bordered table-striped">
 			<thead class="table-dark">
 				<tr>
@@ -97,5 +98,5 @@
 				}
 			</tbody>
 		</table>
-	}
-</div>
+	</div>
+}
