@@ -28,14 +28,41 @@
 	<!-- RIGHT: DETAILS -->
 	<div class="col-md-8">
 
-		<div class="d-flex justify-content-between">
+		<div class="d-flex justify-content-between align-items-center">
 			<h2 class="fw-bold mb-4 border-start border-4 ps-3 border-primary text-uppercase">
 				@Model.Title
 			</h2>
 
-			<a class="link-secondary link-primary-hover" asp-action="Index">
-				<i class="fa fa-times-circle fs-2"></i>
-			</a>
+			<div class="d-flex align-items-center gap-2">
+				<!-- WATCHLIST For All Users -->
+				@if (User.Identity != null && User.Identity.IsAuthenticated)
+				{ 
+					@if (ViewBag.isInWatchList)
+					{
+						<i class="fa-solid fa-bookmark text-secondary opacity-50 fs-4"
+						   title="In Watchlist"
+						   aria-label="In Watchlist"></i>
+					}
+					else
+					{
+						<form asp-controller="WatchLists"
+							  asp-action="Add"
+							  asp-route-movieId="@Model.Id"
+							  method="post" class="m-0">
+
+							<button type="submit" class="btn btn-light p-2 favorite-icon">
+								<i class="fa-regular fa-bookmark fs-4"
+								   title="Add to Watchlist"
+								   aria-label="Add to Watchlist"></i>
+							</button>
+						</form>
+					}
+				}
+
+				<a class="btn btn-light p-1 ms-1 close-icon" asp-action="Index">
+					<i class="fa fa-times fs-2"></i>
+				</a>
+			</div>
 		</div>
 
 		<p>
@@ -80,6 +107,7 @@
 		{
 			<div class="float-end">
 				<a class="btn btn-warning me-1"
+				   title="Film Editing"
 				   asp-action="Edit" asp-route-id="@Model.Id">
 					<i class="fa fa-pencil text-white"></i>
 				</a>
@@ -91,7 +119,7 @@
 
 
 				<!-- Button trigger modal -->
-				<button type="button"
+				<button type="button" title="Delete Record"
 						class="btn btn-danger"
 						data-bs-toggle="modal"
 						data-bs-target="#deleteModal">
@@ -134,7 +162,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<!-- RENT A MOVIE -->
 		<div id="rentSection" class="d-none">
@@ -198,6 +225,32 @@
 				</form>
 			}
 		</div>
+
+@* 		<!-- IN A WATCHLIST -->
+		@if (User.IsInRole("Administrator"))
+		{
+			@if (ViewBag.isInWatchList)
+			{
+				<i class="fa-solid fa-eye-slash text-danger fs-3"
+				   title="In Watchlist"
+				   aria-label="In Watchlist"></i>
+			}
+			else
+			{
+				<form asp-controller="WatchLists"
+					  asp-action="Add"
+					  asp-route-movieId="@Model.Id"
+					  method="post" class="d-inline">
+
+					<button type="submit" class="btn border-0 watchList-icon">
+						<i class="fa-regular fa-eye fs-3"
+						   title="Add to Watchlist"
+						   aria-label="Add to Watchlist"></i>
+					</button>
+				</form>
+			}
+		}
+ *@
 
 	</div>
 </div>

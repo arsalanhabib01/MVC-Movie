@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MVC_Movie.Models.WatchList>
+
+@{
+    ViewData["Title"] = "My Watchlist";
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center mt-5">
+        Your watchlist is empty.
+    </div>
+}
+else
+{
+    <div id="Background-Image">
+        <h3 class="mb-5 mt-4 text-center text-uppercase">
+            <i class="fas fa-list-alt text-success me-2"></i>
+            My WatchList
+        </h3>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="bi bi-film"></i> Movie Title</th>
+                    <th><i class="bi bi-star"></i> Genre</th>
+                    <th><i class="bi bi-calendar2-check"></i> Release Date</th>
+                    <th><i class="bi bi-gear"></i> Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold text-muted">@item.Movie.Title</td>
+                        <td>
+                            @if (item.Movie.Genre != null)
+                            {
+                                foreach (var genre in item.Movie.Genre.Split(','))
+                                {
+                                    <span class="badge bg-secondary text-white ms-1">
+                                        @genre.Trim() 
+                                    </span>
+                                }
+                            }
+                        </td>
+                        <td>@item.Movie.ReleaseDate.ToShortDateString()</td>
+                        <td>
+                            <form asp-controller="WatchLists"
+                                  asp-action="Remove"
+                                  asp-route-Id="@item.Id"
+                                  method="post">
+                                <button class="btn btn-danger btn-sm">
+                                    Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
