@@ -107,15 +107,20 @@ namespace MVC_Movie.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             bool ownsMovie = false;
+            bool isInWatchlist = false;
 
 
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 ownsMovie = await _context.MoviePurchases
                     .AnyAsync(p => p.MovieId == id && p.UserId == userId);
+
+                isInWatchlist = await _context.WatchLists
+                    .AnyAsync(w => w.MovieId == id && w.UserId == userId);
             }
 
             ViewBag.OwnsMovie = ownsMovie;
+            ViewBag.IsInWatchlist = isInWatchlist;
 
             return View(movie);
         }

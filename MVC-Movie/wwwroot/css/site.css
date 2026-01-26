@@ -47,13 +47,13 @@ body {
 
 /* Menu Icon */
 .icon-btn {
-    width: 50px; 
-    height: 40px;   
+    width: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background-color 0.2s, color 0.2s;
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .icon-btn i {
@@ -64,16 +64,17 @@ body {
 
 .icon-btn:hover i {
     transform: scale(1.2);
-    /*color: red;*/
 }
 
 /* ADMIN active */
 .icon-btn.admin.active {
     background-color: rgba(220, 53, 69, 0.15); /* red bg */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .icon-btn.admin.active i {
     color: #dc3545; /* red icon */
+    transform: scale(1);
 }
 
 .icon-btn.admin:hover i {
@@ -82,11 +83,13 @@ body {
     
 /* USER active */
 .icon-btn.user.active {
-    background-color: rgba(13, 110, 253, 0.15); 
+    background-color: rgba(13, 110, 253, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .icon-btn.user.active i {
     color: #0d6efd; 
+    transform: scale(1);
 }
 
 .icon-btn.user:hover i {
@@ -120,3 +123,15 @@ body {
 .user-icon:hover::after {
      opacity: 1;
 }
+
+.close-icon, .favorite-icon {
+    font-size: 1.5rem;
+    color: var(--bs-danger);
+    cursor: pointer;
+    transition: color .25s ease, transform .2s ease;
+}
+
+.close-icon:hover, .favorite-icon:hover {
+    color: var(--bs-danger);
+    transform: scale(1.15);
+ }

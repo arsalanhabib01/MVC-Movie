@@ -13,5 +13,6 @@ namespace MVC_Movie.Data
         public DbSet<MVC_Movie.Models.Movie> Movie { get; set; } = default!;
         public DbSet<MovieRental> MovieRentals { get; set; } = default!;
         public DbSet<MoviePurchase> MoviePurchases { get; set; } = default!;
+        public DbSet<WatchList> WatchLists { get; set; } = default!;
     }
 }
