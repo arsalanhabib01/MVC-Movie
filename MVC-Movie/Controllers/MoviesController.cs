@@ -36,24 +36,11 @@ namespace MVC_Movie.Controllers
                 // make the movie available for others
                 rental.Movie.IsAvailable = true; 
                                                  
-                //_context.MovieRentals.Remove(rental);
             }
             await _context.SaveChangesAsync();
 
             return View(await _context.Movie.ToListAsync());
         }
-
-        // GET: Movies/Search
-        //public async Task<IActionResult> Search(string searchString)
-        //{
-        //    var Movies = await _context.Movie.ToListAsync();
-        //    if (!string.IsNullOrEmpty(searchString))
-        //    {
-        //        Movies = Movies.Where(movie => movie.Title.Contains(searchString)
-        //        || movie.Genre.Contains(searchString)).ToList();
-        //    }
-        //    return View(Movies);
-        //}
 
         // GET: Movies/Search
         public async Task<IActionResult> Search(string searchString, string selectedGenre)

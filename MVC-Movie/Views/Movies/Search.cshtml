@@ -5,19 +5,6 @@
     ViewData["Title"] = "Search";
 }
 
-@* <div class="card text-center">
-    <div class="card-header">
-        <!-- SEARCH BAR -->
-        <form asp-action="Search" method="get" class="mt-2 mb-2">
-            <div class="input-group">
-                <input type="text" name="searchString" class="form-control" placeholder="Search by movie title..." />
-                <button class="btn btn-primary" style="width: 150px">Search</button>
-            </div>
-        </form>
-     </div>
-</div> *@
-
-
 <div class="card text-center mt-5">
     <div class="card-header">
         <form asp-action="Search" method="get" class="mt-2 mb-2">
@@ -51,7 +38,7 @@
     @foreach (var item in Model)
     {
         <div class="col-md-2 mb-3">
-            <div class="card text-success" style="width: 11rem;">
+            <div class="card text-success shadow-sm img-click" style="width: 11rem;">
                 <!-- MOVIE IMAGE -->
                 @if (!string.IsNullOrEmpty(item.FileName))
                 {
