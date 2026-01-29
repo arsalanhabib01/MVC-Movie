@@ -44,7 +44,8 @@ namespace MVC_Movie.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("MyWatchLists", "WatchLists");
+            //return RedirectToAction("MyWatchLists", "WatchLists");
+            return Ok();
         }
 
         // POST: Watchlist/Remove

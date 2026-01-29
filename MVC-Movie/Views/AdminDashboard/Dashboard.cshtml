@@ -1,0 +1,92 @@
+﻿@model MVC_Movie.Models.AdminDashboardVM
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2 class="mb-5 mt-5 text-center text-uppercase">
+    <i class="bi bi-person-gear text-danger fs-1 me-2"></i>
+    Admin Dashboard
+</h2>
+
+<div class="row text-uppercase dashboard-admin">
+    <!-- Active Users -->
+
+	<div class="col-md-3 mb-4 mt-3">
+		<a asp-controller="AdminDashboard"
+		   asp-action="Users"
+		   class="text-decoration-none text-dark">
+            <div class="card bg-light h-100 text-center user-card">
+                <div class="card-body icon-user">
+					<h5 class="card-title">Active Users</h5>
+                    <p class="card-text display-5">
+						@Model.TotalUsers
+						<i class="bi bi-people-fill fs-1"></i>
+					</p>
+				</div>
+			</div>
+		</a>
+	</div>
+
+
+    <!-- Active Rentals -->
+    <div class="col-md-3 mb-4 mt-3">
+        <div class="card text-white bg-info h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Active Rentals</h5>
+                <p class="card-text display-5">@Model.ActiveRentals</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Returned Rentals -->
+    <div class="col-md-3 mb-4 mt-3">
+        <div class="card text-white bg-secondary h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Returned Rentals</h5>
+                <p class="card-text display-5">@Model.ReturnedRentals</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expired Rentals -->
+    <div class="col-md-3 mb-4 mt-3">
+        <div class="card text-white bg-primary h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Expired Rentals</h5>
+                <p class="card-text display-5">@Model.ExpiredRentals</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Movies -->
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-success h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Movies</h5>
+                <p class="card-text display-5">@Model.TotalMovies</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Purchases -->
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-warning h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Purchases</h5>
+                <p class="card-text display-5">@Model.TotalPurchases</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Revenue -->
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-danger h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Revenue</h5>
+                <p class="card-text display-5">@Model.TotalRevenue.ToString("C", CultureInfo.GetCultureInfo("en-US"))</p>
+            </div>
+        </div>
+    </div>
+</div>

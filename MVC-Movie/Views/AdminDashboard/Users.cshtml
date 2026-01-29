@@ -1,0 +1,96 @@
+﻿@model IEnumerable<MVC_Movie.Models.UserWithRoleVM>
+
+<h2 class="mb-5 mt-5 text-center text-uppercase">
+	<i class="fa-solid fa-user-group text-danger fs-1 me-2"></i>
+	User Management
+</h2>
+
+<table class="table table-bordered table-striped">
+	<thead class ="table-dark">
+		<tr>
+			<th><i class="fa-solid fa-envelope"></i> Email</th>
+			<th><i class="fa-solid fa-user-group"></i> Role</th>
+			<th><i class="bi bi-gear"></i> Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model)
+		{
+			<tr>
+				<td>@user.Email</td>
+				<td>@user.Role</td>
+				<td>
+					@if (user.Role != "Administrator")
+					{
+						
+						<form class="deleteAccountForm" asp-action="DeleteUser" method="post">
+							<input type="hidden" name="id" value="@user.Id" />
+							<button class="btn btn-danger btn-sm">Delete Account</button>
+						</form>
+
+
+						<!-- User Deletion Modal -->
+						<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-body text-center">
+										<h5 id="deleteMessage">Deleting Account!</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+					else
+					{
+						<span class="text-muted">Protected</span>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<a class="btn btn-outline-secondary px-4 mb-3" asp-action="Dashboard">
+	Back to Dashboard
+</a>
+
+
+@section Scripts {
+	<script>
+		// JS: Delete User Account
+		document.addEventListener("DOMContentLoaded", () => {
+			const forms = document.querySelectorAll(".deleteAccountForm");
+
+			forms.forEach(form => {
+				form.addEventListener("submit", async (e) => {
+					e.preventDefault();
+
+					try {
+						const res = await fetch(form.action, {
+							method: "POST",
+							body: new FormData(form)
+						});
+
+						// Show modal
+						// const modalEl = document.getElementById("deleteAccountModal");
+						// const modal = new bootstrap.Modal(modalEl);
+						const modal = new bootstrap.Modal(
+						document.getElementById("deleteAccountModal") 
+						);
+						modal.show();
+
+						setTimeout(() => modal.hide(), 2000);
+
+						// Remove only this row
+						const row = form.closest("tr");
+						if (row) row.remove();
+
+					} catch (err) {
+						console.error("Delete failed:", err);
+					}
+				});
+			});
+		});
+
+	</script>
+}

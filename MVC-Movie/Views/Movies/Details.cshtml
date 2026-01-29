@@ -39,23 +39,37 @@
 				{ 
 					@if (ViewBag.isInWatchList)
 					{
-						<i class="fa-solid fa-bookmark text-secondary opacity-50 fs-4"
+						<i class="fa-solid fa-bookmark text-secondary opacity-50 me-2 fs-4"
 						   title="In Watchlist"
 						   aria-label="In Watchlist"></i>
 					}
 					else
 					{
-						<form asp-controller="WatchLists"
-							  asp-action="Add"
-							  asp-route-movieId="@Model.Id"
-							  method="post" class="m-0">
+						<div id="watchlistContainer">
+							<form id="watchlistForm"
+								  asp-controller="WatchLists"
+								  asp-action="Add"
+								  asp-route-movieId="@Model.Id"
+								  method="post" class="m-0">
 
-							<button type="submit" class="btn btn-light p-2 favorite-icon">
-								<i class="fa-regular fa-bookmark fs-4"
-								   title="Add to Watchlist"
-								   aria-label="Add to Watchlist"></i>
-							</button>
-						</form>
+								<button type="submit" class="btn btn-light p-2 favorite-icon">
+									<i class="fa-regular fa-bookmark fs-4"
+									   title="Add to Watchlist"
+									   aria-label="Add to Watchlist"></i>
+								</button>
+							</form>
+						</div>
+
+						<!-- WatchList Modal -->
+						<div class="modal fade" id="watchlistModal" tabindex="-1">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-body text-center">
+										<h5 id="watchlistMessage">Added to Watchlist!</h5>
+									</div>
+								</div>
+							</div>
+						</div>
 					}
 				}
 
@@ -225,38 +239,11 @@
 				</form>
 			}
 		</div>
-
-@* 		<!-- IN A WATCHLIST -->
-		@if (User.IsInRole("Administrator"))
-		{
-			@if (ViewBag.isInWatchList)
-			{
-				<i class="fa-solid fa-eye-slash text-danger fs-3"
-				   title="In Watchlist"
-				   aria-label="In Watchlist"></i>
-			}
-			else
-			{
-				<form asp-controller="WatchLists"
-					  asp-action="Add"
-					  asp-route-movieId="@Model.Id"
-					  method="post" class="d-inline">
-
-					<button type="submit" class="btn border-0 watchList-icon">
-						<i class="fa-regular fa-eye fs-3"
-						   title="Add to Watchlist"
-						   aria-label="Add to Watchlist"></i>
-					</button>
-				</form>
-			}
-		}
- *@
-
 	</div>
 </div>
 
 @section Scripts {
-	<!-- JS TO ENABLE A BUTTON -->
+	<!-- JS: TO ENABLE A BUTTON (PURCHASE TYPE) -->
 	<script>
 		const selectLanguage = document.getElementById('selectLanguage');
 		const purchaseOption = document.getElementById('purchaseType');
@@ -280,6 +267,41 @@
 			else if (this.value === "Buy") {
 				buySection.classList.remove('d-none');
 			}
+		});
+
+		// JS: SAVE & UPDATE UI (WATCHLIST)
+		document.addEventListener("DOMContentLoaded", function () {
+
+			const form = document.getElementById("watchlistForm");
+
+			if (!form) return;
+
+			form.addEventListener("submit", function (e) {
+				e.preventDefault();
+
+				fetch(this.action, {
+					method: "POST",
+					body: new FormData(this)
+				})
+				.then(res => {
+					if (!res.ok) return;
+
+					// Show modal
+					const modal = new bootstrap.Modal(
+						document.getElementById("watchlistModal")
+					);
+					modal.show();
+
+					setTimeout(() => modal.hide(), 2000);
+
+					// Update UI immediately
+					document.getElementById("watchlistContainer").innerHTML = `
+						<i class="fa-solid fa-bookmark text-secondary me-2 opacity-50 fs-4"
+						   title="In Watchlist"
+						   aria-label="In Watchlist"></i>
+					`;
+				});
+			});
 		});
 	</script>
 }

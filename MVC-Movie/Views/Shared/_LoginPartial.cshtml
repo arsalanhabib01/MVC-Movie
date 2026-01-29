@@ -18,7 +18,7 @@
 
                 👋 Hello,
                 <span class="user-icon mt-1" data-user="@User.Identity?.Name">
-                    <i class="fa-solid fa-user" style="font-size: 1.4rem;"></i>
+                    <i class="fa-solid fa-user-clock" style="font-size: 1.4rem;"></i>
                 
                     @if (isAdmin)
                     {
@@ -40,13 +40,12 @@
                     </a>
                 </li>
 
-                @* Note: Admin Panel not yet implemented *@
                 @if (isAdmin)
                 {
                     <li>
                         <a class="dropdown-item text-danger"
-                           asp-controller="Admin"
-                           asp-action="Index">
+                           asp-controller="AdminDashboard"
+                           asp-action="Dashboard">
                             Admin Panel
                         </a>
                     </li>
@@ -86,7 +85,7 @@
                && ViewContext.RouteData.Values["page"]?.ToString() == "/Account/Login" ? "active" : "")"
                asp-area="Identity"
                asp-page="/Account/Login">
-                <i class="fa-solid fa-user" style="font-size: 1.1rem;"></i>
+                <i class="fa-solid fa-user-plus" style="font-size: 1.1rem;"></i>
             </a>
         </li>
     }
