@@ -62,8 +62,8 @@
 						{
 							<li class="nav-item ms-3">
 								<span class="opacity-75 text-muted fw-bold">
-									My Rentals
-									<a class="nav-link text-dark icon-btn ms-3 @(isAdmin ? "admin" : "user")
+									Rentals
+									<a class="nav-link text-dark icon-btn @(isAdmin ? "admin" : "user")
 		                                @(ViewContext.RouteData.Values["controller"]?.ToString() == "MovieRentals"
 									    && ViewContext.RouteData.Values["action"]?.ToString() == "MyRentals"
 										? "active" : "")" asp-controller="MovieRentals" asp-action="MyRentals">
@@ -74,8 +74,8 @@
 
 							<li class="nav-item ms-3">
 								<span class="opacity-75 text-muted fw-bold">
-									My Purchases
-									<a class="nav-link text-dark icon-btn ms-3 @(isAdmin ? "admin" : "user")
+									Purchases
+									<a class="nav-link text-dark icon-btn ms-1 @(isAdmin ? "admin" : "user")
 		                                @(ViewContext.RouteData.Values["controller"]?.ToString() == "MoviePurchases"
 										&& ViewContext.RouteData.Values["action"]?.ToString() == "MyPurchases"
 										? "active" : "")" asp-controller="MoviePurchases" asp-action="MyPurchases">
@@ -86,8 +86,8 @@
 
 							<li class="nav-item ms-3">
                                 <span class="opacity-75 text-muted fw-bold">
-                                    My favorites
-								    <a class="nav-link text-dark icon-btn ms-3 @(isAdmin ? "admin" : "user")
+                                    favorites
+								    <a class="nav-link text-dark icon-btn ms-1 @(isAdmin ? "admin" : "user")
 		                                @(ViewContext.RouteData.Values["controller"]?.ToString() == "WatchLists"
 								        && ViewContext.RouteData.Values["action"]?.ToString() == "MyWatchLists"
 								        ? "active" : "")" asp-controller="WatchLists" asp-action="MyWatchLists">
@@ -95,6 +95,18 @@
 							        </a>
                                 </span>
 						    </li>
+
+							<li class="nav-item ms-3">
+								<span class="opacity-75 text-muted fw-bold">
+									Comments
+									<a class="nav-link text-dark icon-btn ms-2 @(isAdmin ? "admin" : "user")
+			                           @(ViewContext.RouteData.Values["controller"]?.ToString() == "MovieComments"
+										&& ViewContext.RouteData.Values["action"]?.ToString() == "MyCommentLists"
+										? "active" : "")" asp-controller="MovieComments" asp-action="MyCommentLists">
+										<i class="fa-solid fa-comment" style="font-size: 1.1rem;"></i>
+									</a>
+								</span>
+							</li>
 						}
 
                         @if (isAdmin)
