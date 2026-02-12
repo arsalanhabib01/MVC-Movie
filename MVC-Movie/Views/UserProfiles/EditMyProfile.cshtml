@@ -1,0 +1,109 @@
+﻿@model MVC_Movie.Models.UserProfile
+
+@{
+	ViewData["Title"] = "Edit Profile";
+}
+
+<h3 class="fw-bold mb-5">
+	<i class="bi bi-pencil-square fs-3 text-warning"></i>
+	Edit Profile
+</h3>
+
+<form asp-action="EditMyProfile"
+	  asp-controller="UserProfiles"
+	  method="post"
+	  enctype="multipart/form-data">
+
+	<input type="hidden" asp-for="Id" />
+
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+	<!-- Full Name -->
+	<div class="mb-2">
+		<label asp-for="FullName" class="form-label fw-semibold">Full Name</label>
+		<input asp-for="FullName" class="form-control" />
+		<span asp-validation-for="FullName" class="text-danger"></span>
+	</div>
+
+	<!-- Date Of Birth -->
+	<div class="mb-2">
+		<label asp-for="DateOfBirth" class="form-label fw-semibold">Date Of Birth</label>
+		<input asp-for="DateOfBirth" type="date" class="form-control" />
+		<span asp-validation-for="DateOfBirth" class="text-danger"></span>
+	</div>
+
+	<!-- Bio -->
+	<div class="mb-2">
+		<label asp-for="Bio" class="form-label fw-semibold"></label>
+		<textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+		<span asp-validation-for="Bio" class="text-danger"></span>
+	</div>
+
+	<!-- Current Image -->
+	@if (!string.IsNullOrEmpty(Model.ProfileImage))
+	{
+		<div class="mb-3 text-center">
+			<label class="form-label fw-semibold d-block">Current Image</label>
+			<img src="~/profile/@Model.ProfileImage"
+				 class="img-thumbnail shadow-sm"
+				 style="max-width:150px;" />
+		</div>
+	}
+
+	<!-- Upload New Image -->
+	<div class="mb-4">
+		<label asp-for="ImageFile" class="form-label fw-semibold">
+			Change Profile Image
+		</label>
+		<input asp-for="ImageFile"
+			   type="file"
+			   class="form-control"
+			   onchange="previewImage(event)" />
+		<span asp-validation-for="ImageFile" class="text-danger"></span>
+	</div>
+
+	<!-- Preview New Image -->
+	<div id="preview-container"
+		 class="mb-4 text-center"
+		 style="display:none;">
+		<label class="form-label fw-semibold d-block">New Selected Image</label>
+		<img id="preview-image"
+			 class="img-thumbnail shadow-sm"
+			 style="max-width:150px;" />
+	</div>
+
+	<button type="submit" class="btn btn-warning text-white">
+		Update Profile
+	</button>
+
+	<a asp-action="MyProfile" class="btn btn-outline-secondary ms-4">
+		Cancel
+	</a>
+
+</form>
+
+@section Scripts {
+	<script>
+		function previewImage(event) {
+			const input = event.target;
+			const previewContainer = document.getElementById("preview-container");
+			const previewImage = document.getElementById("preview-image");
+
+			if (input.files && input.files[0]) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					previewImage.src = e.target.result;
+					previewContainer.style.display = "block";
+				};
+				reader.readAsDataURL(input.files[0]);
+			} else {
+				previewContainer.style.display = "none";
+				previewImage.src = "";
+			}
+		}
+	</script>
+
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

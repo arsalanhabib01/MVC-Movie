@@ -49,15 +49,20 @@ namespace MVC_Movie.Controllers
         public async Task<IActionResult> Users()
         {
             var users = _userManager.Users.ToList();
+            var profiles = await _context.UserProfiles.ToListAsync();
 
             var result = new List<UserWithRoleVM>();
 
             foreach (var user in users)
             {
                 var roles = await _userManager.GetRolesAsync(user);
+                var profile = profiles.FirstOrDefault(p => p.UserId == user.Id);
+
 
                 result.Add(new UserWithRoleVM
                 {
+                    FullName = profile?.FullName ?? "No Profile",
+                    DateOfBirth = profile?.DateOfBirth,
                     Id = user.Id,
                     Email = user.Email,
                     Role = roles.FirstOrDefault() ?? "User"
@@ -66,7 +71,6 @@ namespace MVC_Movie.Controllers
 
             return View(result);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
