@@ -1,0 +1,101 @@
+﻿@model MVC_Movie.Models.UserProfile
+
+@{
+    ViewData["Title"] = "Create Profile";
+}
+
+<h3 class="fw-bold mb-5">
+    <i class="fa-solid fa-user-plus text-primary me-2"></i>
+    Create Profile
+</h3>
+
+<form asp-action="AddMyProfile"
+          asp-controller="UserProfiles"
+          method="post"
+          enctype="multipart/form-data">
+
+     <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group mb-2">
+        <label asp-for="FullName">Full Name</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-2">
+        <label asp-for="DateOfBirth">Date Of Birth</label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-2">
+        <label asp-for="Bio"></label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+
+	<div class="form-group mb-2">
+		<label asp-for="ImageFile" class="form-label fw-semibold">Profile Image</label>
+		<input asp-for="ImageFile" type="file" class="form-control"
+			   onchange="previewImage(event)" />
+	</div>
+
+	<div id="preview-container" class="mb-4 text-center" style="display:none;">
+		<label class="form-label fw-semibold d-block">Selected Image</label>
+		<img id="preview-image"
+			 class="img-thumbnail shadow-sm"
+			 style="max-width:150px;" />
+	</div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary px-4">
+        Save Profile
+    </button>
+</form>
+
+
+
+@section Scripts {
+    <script>
+        function previewImage(event) {
+            // Get the file input element and the preview elements
+            // from the event target
+            // event.target is the file input
+            const input = event.target;
+            // Get the preview container and image elements
+            const previewContainer = document.getElementById("preview-container");
+            const previewImage = document.getElementById("preview-image");
+
+            // Check if a file is selected
+            // input.files is the FileList object
+            // input.files[0] is the first selected file
+            if (input.files && input.files[0]) {
+                // Create a FileReader to read the file
+                const reader = new FileReader();
+                // When the file is read, set the preview image source
+                // and make the preview container visible
+                reader.onload = function(e) {
+                    // Set the preview image source to the file data
+                    previewImage.src = e.target.result;
+                    // Show the preview container
+                    // "block" to make it visible"
+                    previewContainer.style.display = "block";
+                };
+                // Read the file as a Data URL (base64)
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                // No file selected, hide the preview container
+                // "none" to hide it
+                previewContainer.style.display = "none";
+                // Clear the preview image source
+                previewImage.src = "";
+            }
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

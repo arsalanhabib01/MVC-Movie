@@ -8,6 +8,8 @@
 <table class="table table-bordered table-striped">
 	<thead class ="table-dark">
 		<tr>
+			<th><i class="fa-solid fa-user"></i> Full Name</th>
+			<th><i class="fa-solid fa-calendar-days"></i> Date Of Birth</th>
 			<th><i class="fa-solid fa-envelope"></i> Email</th>
 			<th><i class="fa-solid fa-user-group"></i> Role</th>
 			<th><i class="bi bi-gear"></i> Actions</th>
@@ -17,6 +19,17 @@
 		@foreach (var user in Model)
 		{
 			<tr>
+				<td>
+					@if (user.FullName == "No Profile")
+					{
+						<span class="text-danger fw-bold">No Profile</span>
+					}
+					else
+					{
+						<strong>@user.FullName</strong>
+					}
+				</td>
+				<td>@user.DateOfBirth?.ToShortDateString()</td>
 				<td>@user.Email</td>
 				<td>@user.Role</td>
 				<td>
