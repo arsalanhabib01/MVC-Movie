@@ -120,6 +120,16 @@
 									</a>
                                 </span>
                             </li>
+
+							<li class="nav-item ms-3">
+								<span class="opacity-75 text-muted fw-bold">
+									Register Actor
+									<a class="nav-link text-dark icon-btn ms-3 @(isAdmin ? "admin" : "user")" 
+										asp-controller="MovieActors" asp-action="AddActorProfile">
+										<i class="fa-solid fa-user-tie" style="font-size: 1.1rem;"></i>
+									</a>
+								</span>
+							</li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />

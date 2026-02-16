@@ -157,3 +157,13 @@ body {
     color: var(--bs-danger);
     transform: scale(1.15);
  }
+
+/* Movie Cast */
+.cast-item {
+    transition: 0.2s ease-in-out;
+}
+
+.cast-item:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.05);
+}
