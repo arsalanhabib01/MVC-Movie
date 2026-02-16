@@ -92,10 +92,18 @@ namespace MVC_Movie.Controllers
             }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var actorsMovie = await _context.MovieActors
+                .Where(ma => ma.MovieId == id)
+                .Select(ma => new
+                {
+                    ma.Id,
+                    ma.FullName
+                })
+                .ToListAsync();
 
             bool ownsMovie = false;
             bool isInWatchlist = false;
-
 
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
@@ -106,6 +114,7 @@ namespace MVC_Movie.Controllers
                     .AnyAsync(w => w.MovieId == id && w.UserId == userId);
             }
 
+            ViewBag.ActorsMovie = actorsMovie;
             ViewBag.OwnsMovie = ownsMovie;
             ViewBag.IsInWatchlist = isInWatchlist;
 

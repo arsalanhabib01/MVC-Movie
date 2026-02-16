@@ -1,112 +1,107 @@
-﻿@model MVC_Movie.Models.Movie
+﻿@model MVC_Movie.Models.MovieActor
 
 @{
     Layout = "_FullscreenLayout";
-    ViewData["Title"] = "Edit Movie";
+    ViewData["Title"] = "Create Actor Profile";
 }
 
 <div class="row justify-content-center">
-	<div class="col-lg-8 col-xl-6">
+    <div class="col-lg-8 col-xl-6">
 
-		<div class="card shadow-lg border-0 rounded-4">
-			
-			<div class="card-body p-4 p-md-4">
+        <div class="card shadow-lg border-0 rounded-4">
+            <div class="card-body p-4 p-md-4">
 
 				<div class="d-flex justify-content-between align-items-center mb-4">
 
 					<!-- Movie Title -->
 					<h2 class="fw-bold">
-						<i class="fa-regular fa-pen-to-square fs-2 me-2 text-warning"></i>
-						Edit Movie
+						<i class="fa-solid fa-user-tie fs-2 me-2 text-primary"></i>
+						Add Portfolio
 					</h2>
 
 					<!-- CLOSE BUTTON -->
 					<a class="btn btn-outline-secondary rounded-circle shadow-sm
 					   d-flex align-items-center justify-content-center"
 					   style="width:45px; height:45px;"
-					   asp-action="Details"
-					   asp-route-id="@Model.Id">
+					   asp-controller="Movies"
+					   asp-action="Index">
 					   <i class="fa fa-times fs-5"></i>
 					</a>
 
 				</div>
 
-				<form asp-action="Edit" enctype="multipart/form-data">
+				<form asp-action="AddActorProfile"
+					  asp-controller="MovieActors"
+					  method="post"
+					  enctype="multipart/form-data">
 
 					<input type="hidden" asp-for="Id" />
-					<input type="hidden" asp-for="UserId" />
-					<input type="hidden" asp-for="FileName" />
-					<input type="hidden" asp-for="IsAvailable" />
-					
-					<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-					<div class="mb-3">
-						<label asp-for="Title" class="form-label fw-semibold"></label>
-						<input asp-for="Title" class="form-control" />
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+					<div class="mb-2">
+						<label asp-for="MovieId" class="form-label fw-semibold">Select Movie</label>
+						<select asp-for="MovieId"
+								asp-items="ViewBag.MovieId"
+								class="select-form w-100 p-1">
+						</select>
 					</div>
 
-					<div class="row mb-3">
-						<div class="col-md-4">
-							<label asp-for="ReleaseDate" class="form-label fw-semibold"></label>
-							<input asp-for="ReleaseDate" class="form-control" type="date" />
-						</div>
-
-						<div class="col-md-5">
-							<label asp-for="Genre" class="form-label fw-semibold"></label>
-							<input asp-for="Genre" class="form-control" />
-						</div>
-						<div class="col-md-3">
-							<label asp-for="Rating" class="form-label fw-semibold"></label>
-							<input asp-for="Rating" class="form-control" type="number" step="0.1" />
-						</div>
+					<div class="mb-2">
+						<label asp-for="FullName" class="form-label fw-semibold">Full Name</label>
+						<span class="text-warning">*</span>
+						<input asp-for="FullName" class="form-control" required/>
 					</div>
 
-					<div class="mb-3">
-						<label asp-for="Description" class="form-label fw-semibold"></label>
-						<textarea asp-for="Description" class="form-control" rows="3"></textarea>
-					</div>
+					<div class="row mb-2">
+						<div class="col-md-6">
+							<label asp-for="DateOfBirth" class="form-label fw-semibold">Date Of Birth</label>
+							<input asp-for="DateOfBirth" type="date" class="form-control" />
+							<span asp-validation-for="DateOfBirth" class="text-danger"></span>
+						</div>
 
-					<div class="row">
-
-						<!-- IMAGE PREVIEW -->
-						@if (!string.IsNullOrEmpty(Model.FileName))
-						{
-							<div id="preview-container" class="col-md-5 mb-4 text-center">
-								<label class="form-label fw-semibold d-block">
-									Current Poster</label>
-								<img id="preview-image" src="~/images/@Model.FileName"
-									 class="img-thumbnail shadow-sm"
-									 style="max-width:150px;" />
-							</div>
-						}
-
-
-						<!-- FILE UPLOAD -->
-						<div class="col-md-7 mb-4">
-							<label asp-for="FileForm" class="form-label fw-semibold"></label>
-							<input asp-for="FileForm" type="file" class="form-control" 
-								onchange="previewImage(event)" />
+						<div class="col-md-6">
+							<label asp-for="Nationality" class="form-label fw-semibold"></label>
+							<input asp-for="Nationality" class="form-control" />
+							<span asp-validation-for="Nationality" class="text-danger"></span>
 						</div>
 					</div>
 
-					<div class="d-flex justify-content-between mt-2">
+					<div class="mb-2">
+						<label asp-for="Biography" class="form-label fw-semibold"></label>
+						<span class="text-warning">*</span>
+						<textarea asp-for="Biography" class="form-control" required></textarea>
+					</div>
+
+					<div class="mb-2">
+						<label asp-for="ImageFile" class="form-label fw-semibold">Actor Image</label>
+						<input asp-for="ImageFile" type="file" class="form-control"
+							   onchange="previewImage(event)" />
+					</div>
+
+					<div id="preview-container" class="mb-4 text-center" style="display:none;">
+						<label class="form-label fw-semibold d-block">Selected Image</label>
+						<img id="preview-image"
+							 class="img-thumbnail shadow-sm"
+							 style="max-width:150px;" />
+					</div>
+
+					<div class="form-group d-flex justify-content-between mt-4">
 						<a class="btn btn-outline-secondary px-4"
-						   asp-action="Details" asp-route-id="@Model.Id">
+						   asp-controller="Movies"
+						   asp-action="Index">
 							Cancel
 						</a>
 						<button type="submit" class="btn btn-primary px-4">
-							<i class="fa fa-save me-1"></i> 
-							Save Changes
+							Save Portfolio
 						</button>
 					</div>
 
 				</form>
-
 			</div>
 		</div>
 	</div>
 </div>
-
 
 
 @section Scripts {
