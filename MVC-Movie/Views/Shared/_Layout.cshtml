@@ -1,5 +1,18 @@
-﻿@{
+﻿@inject MVC_Movie.Data.ApplicationDbContext _context
+@using System.Security.Claims
+
+@{
     bool isAdmin = User.IsInRole("Administrator");
+
+	var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+	int notificationCount = 0;
+
+	if (userId != null)
+	{
+		notificationCount = _context.PurchaseNotifications
+			.Count(n => n.UserId == userId && !n.IsRead);
+	}
 }
 
 <!DOCTYPE html>
@@ -104,6 +117,24 @@
 										&& ViewContext.RouteData.Values["action"]?.ToString() == "MyCommentLists"
 										? "active" : "")" asp-controller="MovieComments" asp-action="MyCommentLists">
 										<i class="fa-solid fa-comment" style="font-size: 1.1rem;"></i>
+									</a>
+								</span>
+							</li>
+
+							<li class="nav-item ms-3">
+								<span class="opacity-75 text-muted fw-bold">
+									Notifications
+									<a class="nav-link text-dark icon-btn ms-2 @(isAdmin ? "admin" : "user")
+			                           @(ViewContext.RouteData.Values["controller"]?.ToString() == "PurchaseNotifications"
+										&& ViewContext.RouteData.Values["action"]?.ToString() == "MyNotification"
+										? "active" : "")" asp-controller="PurchaseNotifications" asp-action="MyNotification">
+										<i class="fa-solid fa-bell" style="font-size: 1.1rem;"></i>
+										@if (notificationCount > 0)
+										{
+											<span class="position-absolute translate-middle badge rounded-pill bg-danger">
+												@notificationCount
+											</span>
+										}
 									</a>
 								</span>
 							</li>

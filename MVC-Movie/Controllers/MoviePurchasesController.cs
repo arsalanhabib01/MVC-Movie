@@ -32,6 +32,17 @@ namespace MVC_Movie.Controllers
             if (alreadyPurchased)
                 return BadRequest("Already purchased");
 
+            // 🔔 ADD NOTIFICATION HERE
+            var notification = new PurchaseNotification
+            {
+                UserId = userId,
+                Message = $"You successfully purchased '{movie.Title}' 🎬",
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            };
+
+            _context.PurchaseNotifications.Add(notification);
+    
             var purchase = new MoviePurchase
             {
                 MovieId = movieId,

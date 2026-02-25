@@ -45,6 +45,19 @@ namespace MVC_Movie.Controllers
             movie.IsAvailable = false;
 
             _context.MovieRentals.Add(rental);
+
+            // 🔔 ADD NOTIFICATION HERE
+            var notification = new PurchaseNotification
+            {
+                UserId = userId,
+                Message = $"You successfully rented '{movie.Title}' 🎬. \n" +
+                          $"Please return it by {rental.DueAt.ToLocalTime():MMM dd, yyyy hh:mm tt}.",
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            };
+
+            _context.PurchaseNotifications.Add(notification);
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("MyRentals", "MovieRentals");

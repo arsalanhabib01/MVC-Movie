@@ -17,5 +17,6 @@ namespace MVC_Movie.Data
         public DbSet<MovieComment> MovieComments { get; set; } = default!;
         public DbSet<UserProfile> UserProfiles { get; set; } = default!;
         public DbSet<MovieActor> MovieActors { get; set; } = default!;
+        public DbSet<PurchaseNotification> PurchaseNotifications { get; set; } = default!;
     }
 }
