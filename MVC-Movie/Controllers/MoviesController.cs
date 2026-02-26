@@ -37,7 +37,7 @@ namespace MVC_Movie.Controllers
                 // make the movie available for others
                 rental.Movie.IsAvailable = true;
 
-                bool alreadyNotified = await _context.PurchaseNotifications
+                bool alreadyNotified = await _context.Notifications
                         .AnyAsync(n =>
                             n.UserId == rental.UserId &&
                             n.Message.Contains(rental.Movie.Title) &&
@@ -46,7 +46,7 @@ namespace MVC_Movie.Controllers
                 if (!alreadyNotified)
                 {
                     // ⛔ ADD OVERDUE NOTIFICATION HERE
-                    var notification = new PurchaseNotification
+                    var notification = new Notification
                     {
                         UserId = rental.UserId,
                         Message = $"Your rental for '{rental.Movie.Title}' has expired ⛔.",
@@ -54,7 +54,7 @@ namespace MVC_Movie.Controllers
                         IsRead = false
                     };
 
-                    _context.PurchaseNotifications.Add(notification);
+                    _context.Notifications.Add(notification);
                 }
             }
             await _context.SaveChangesAsync();

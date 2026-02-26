@@ -33,7 +33,7 @@ namespace MVC_Movie.Controllers
                 return BadRequest("Already purchased");
 
             // 🔔 ADD NOTIFICATION HERE
-            var notification = new PurchaseNotification
+            var notification = new Notification
             {
                 UserId = userId,
                 Message = $"You successfully purchased '{movie.Title}' 🎬",
@@ -41,7 +41,7 @@ namespace MVC_Movie.Controllers
                 IsRead = false
             };
 
-            _context.PurchaseNotifications.Add(notification);
+            _context.Notifications.Add(notification);
     
             var purchase = new MoviePurchase
             {

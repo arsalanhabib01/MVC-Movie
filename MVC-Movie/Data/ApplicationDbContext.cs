@@ -17,6 +17,15 @@ namespace MVC_Movie.Data
         public DbSet<MovieComment> MovieComments { get; set; } = default!;
         public DbSet<UserProfile> UserProfiles { get; set; } = default!;
         public DbSet<MovieActor> MovieActors { get; set; } = default!;
-        public DbSet<PurchaseNotification> PurchaseNotifications { get; set; } = default!;
+        public DbSet<Notification> Notifications { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder); // VERY IMPORTANT
+
+            // Your custom table mapping
+            modelBuilder.Entity<Notification>()
+                .ToTable("PurchaseNotifications");
+        }
     }
 }

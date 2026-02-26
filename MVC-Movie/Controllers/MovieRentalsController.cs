@@ -47,7 +47,7 @@ namespace MVC_Movie.Controllers
             _context.MovieRentals.Add(rental);
 
             // 🔔 ADD NOTIFICATION HERE
-            var notification = new PurchaseNotification
+            var notification = new Notification
             {
                 UserId = userId,
                 Message = $"You successfully rented '{movie.Title}' 🎬. \n" +
@@ -56,7 +56,7 @@ namespace MVC_Movie.Controllers
                 IsRead = false
             };
 
-            _context.PurchaseNotifications.Add(notification);
+            _context.Notifications.Add(notification);
 
             await _context.SaveChangesAsync();
 
@@ -81,7 +81,7 @@ namespace MVC_Movie.Controllers
             rental.Movie.IsAvailable = true;
 
             // ✅ ADD Returned NOTIFICATION HERE
-            var notification = new PurchaseNotification
+            var notification = new Notification
             {
                 UserId = rental.UserId,
                 Message = $"Return Confirmed ✅ '{rental.Movie.Title}' has been returned successfully.\n" +
@@ -90,7 +90,7 @@ namespace MVC_Movie.Controllers
                 IsRead = false
             };
 
-            _context.PurchaseNotifications.Add(notification);
+            _context.Notifications.Add(notification);
 
             await _context.SaveChangesAsync();
 
