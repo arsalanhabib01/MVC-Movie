@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MVC_Movie.Data;
 using MVC_Movie.Models;
@@ -29,13 +30,32 @@ namespace MVC_Movie.Controllers
                 .Include(r => r.Movie)
                 .Where(r => r.DueAt < DateTime.Now && r.Status == RentalStatus.Active)
                 .ToListAsync();
-            
+
             foreach (var rental in expiredRentals)
             {
                 rental.Status = RentalStatus.Expired;
                 // make the movie available for others
-                rental.Movie.IsAvailable = true; 
-                                                 
+                rental.Movie.IsAvailable = true;
+
+                bool alreadyNotified = await _context.PurchaseNotifications
+                        .AnyAsync(n =>
+                            n.UserId == rental.UserId &&
+                            n.Message.Contains(rental.Movie.Title) &&
+                            n.Message.Contains("expired"));
+
+                if (!alreadyNotified)
+                {
+                    // ⛔ ADD OVERDUE NOTIFICATION HERE
+                    var notification = new PurchaseNotification
+                    {
+                        UserId = rental.UserId,
+                        Message = $"Your rental for '{rental.Movie.Title}' has expired ⛔.",
+                        CreatedAt = DateTime.Now,
+                        IsRead = false
+                    };
+
+                    _context.PurchaseNotifications.Add(notification);
+                }
             }
             await _context.SaveChangesAsync();
 
