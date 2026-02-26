@@ -80,6 +80,18 @@ namespace MVC_Movie.Controllers
             rental.ReturnedAt = DateTime.UtcNow;
             rental.Movie.IsAvailable = true;
 
+            // ✅ ADD Returned NOTIFICATION HERE
+            var notification = new PurchaseNotification
+            {
+                UserId = rental.UserId,
+                Message = $"Return Confirmed ✅ '{rental.Movie.Title}' has been returned successfully.\n" +
+                          $"We hope you enjoyed watching it! 🍿",
+                CreatedAt = DateTime.Now,
+                IsRead = false
+            };
+
+            _context.PurchaseNotifications.Add(notification);
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(MyRentals));
