@@ -10,7 +10,7 @@
 
 	if (userId != null)
 	{
-		notificationCount = _context.PurchaseNotifications
+		notificationCount = _context.Notifications
 			.Count(n => n.UserId == userId && !n.IsRead);
 	}
 }
@@ -125,9 +125,9 @@
 								<span class="opacity-75 text-muted fw-bold">
 									Notifications
 									<a class="nav-link text-dark icon-btn ms-2 @(isAdmin ? "admin" : "user")
-			                           @(ViewContext.RouteData.Values["controller"]?.ToString() == "PurchaseNotifications"
+			                           @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notifications"
 										&& ViewContext.RouteData.Values["action"]?.ToString() == "MyNotification"
-										? "active" : "")" asp-controller="PurchaseNotifications" asp-action="MyNotification">
+										? "active" : "")" asp-controller="Notifications" asp-action="MyNotification">
 										<i class="fa-solid fa-bell" style="font-size: 1.1rem;"></i>
 										@if (notificationCount > 0)
 										{

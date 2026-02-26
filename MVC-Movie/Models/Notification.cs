@@ -2,7 +2,7 @@
 
 namespace MVC_Movie.Models
 {
-    public class PurchaseNotification
+    public class Notification
     {
         public int Id { get; set; }
 

@@ -5,11 +5,11 @@ using System.Security.Claims;
 
 namespace MVC_Movie.Controllers
 {
-    public class PurchaseNotificationsController : Controller
+    public class NotificationsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PurchaseNotificationsController(ApplicationDbContext context)
+        public NotificationsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -19,18 +19,18 @@ namespace MVC_Movie.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var purchaseNotifications = await _context.PurchaseNotifications
+            var notifications = await _context.Notifications
                 .Where(n => n.UserId == userId)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
 
-            return View(purchaseNotifications);
+            return View(notifications);
         }
 
         // Mark as Read
         public async Task<IActionResult> MarkAsRead(int id)
         {
-            var notification = await _context.PurchaseNotifications.FindAsync(id);
+            var notification = await _context.Notifications.FindAsync(id);
 
             if (notification != null)
             {
