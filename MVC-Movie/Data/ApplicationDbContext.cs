@@ -18,6 +18,7 @@ namespace MVC_Movie.Data
         public DbSet<UserProfile> UserProfiles { get; set; } = default!;
         public DbSet<MovieActor> MovieActors { get; set; } = default!;
         public DbSet<Notification> Notifications { get; set; } = default!;
+        public DbSet<Coupon> Coupons { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

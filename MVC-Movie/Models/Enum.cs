@@ -14,4 +14,11 @@
         Cancelled
     }
 
+    public enum CouponType
+    {
+        Rent,
+        Purchase,
+        Birthday
+    }
+
 }

@@ -9,6 +9,7 @@
         public int ExpiredRentals { get; set; }
         public int TotalPurchases { get; set; }
         public decimal TotalRevenue { get; set; }
+        public decimal TotalDiscount { get; set; }
     }
 
     public class UserWithRoleVM

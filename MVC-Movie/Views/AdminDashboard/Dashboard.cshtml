@@ -61,7 +61,7 @@
     </div>
 
     <!-- Total Movies -->
-    <div class="col-md-4 mb-3">
+    <div class="col-md-3 mb-3 mt-3">
         <div class="card text-white bg-success h-100 text-center">
             <div class="card-body">
                 <h5 class="card-title">Total Movies</h5>
@@ -71,7 +71,7 @@
     </div>
 
     <!-- Total Purchases -->
-    <div class="col-md-4 mb-3">
+    <div class="col-md-3 mb-3 mt-3">
         <div class="card text-white bg-warning h-100 text-center">
             <div class="card-body">
                 <h5 class="card-title">Total Purchases</h5>
@@ -80,8 +80,18 @@
         </div>
     </div>
 
+    <!-- Total Discount -->
+    <div class="col-md-3 mb-3 mt-3">
+        <div class="card text-white bg-black bg-opacity-75 h-100 text-center">
+            <div class="card-body">
+                <h5 class="card-title">Total Discounts</h5>
+                <p class="card-text display-5">@Model.TotalDiscount.ToString("C", CultureInfo.GetCultureInfo("en-US"))</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Total Revenue -->
-    <div class="col-md-4 mb-3">
+    <div class="col-md-3 mb-3 mt-3">
         <div class="card text-white bg-danger h-100 text-center">
             <div class="card-body">
                 <h5 class="card-title">Total Revenue</h5>

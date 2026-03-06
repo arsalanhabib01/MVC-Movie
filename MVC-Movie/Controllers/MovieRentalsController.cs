@@ -19,7 +19,7 @@ namespace MVC_Movie.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RentMovie(int movieId)
+        public async Task<IActionResult> RentMovie(int movieId, string? couponCode)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -28,8 +28,44 @@ namespace MVC_Movie.Controllers
             if (movie == null)
                 return NotFound("Movie not found");
 
-            // Create a random number generator
-            //var random = new Random();
+            decimal price = 8;
+            decimal discountAmount = 0;
+
+            if (!string.IsNullOrEmpty(couponCode))
+            {
+                var coupon = await _context.Coupons
+                    .FirstOrDefaultAsync(c =>
+                        c.Code == couponCode &&
+                        c.IsActive &&
+                        c.ExpiryDate > DateTime.UtcNow &&
+                        (c.UserId == null || c.UserId == userId) &&
+                        (c.CouponType == CouponType.Rent || c.CouponType == CouponType.Birthday) &&
+                        c.TimesUsed < c.UsageLimit);
+
+                if (coupon != null)
+                {
+                    discountAmount = price * (coupon.DiscountPercentage / 100);
+                    price -= discountAmount;
+
+                    coupon.TimesUsed++;
+
+                    // If coupon limit is reached
+                    if (coupon.TimesUsed >= coupon.UsageLimit)
+                    {
+                        coupon.IsActive = false;
+
+                        // 🔔 ADD NOTIFICATION HERE
+                        var limitNotification = new Notification
+                        {
+                            UserId = userId,
+                            Message = $"🔔 The coupon '{coupon.Code}' has reached its usage limit and is now deactivated.",
+                            CreatedAt = DateTime.Now,
+                            IsRead = false
+                        };
+                        _context.Notifications.Add(limitNotification);
+                    }
+                }
+            }
 
             var rental = new MovieRental
             {
@@ -38,8 +74,9 @@ namespace MVC_Movie.Controllers
                 RentedAt = DateTime.UtcNow,
                 DueAt = DateTime.UtcNow.AddDays(3),
                 Status = RentalStatus.Active,
-                RentalPrice = 7
-                //RentalPrice = random.Next(5, 15)
+                RentalPrice = (int)price,
+                DiscountApplied = discountAmount,
+                CouponCode = couponCode,
             };
 
             movie.IsAvailable = false;
@@ -47,7 +84,7 @@ namespace MVC_Movie.Controllers
             _context.MovieRentals.Add(rental);
 
             // 🔔 ADD NOTIFICATION HERE
-            var notification = new Notification
+            var rentalNotification = new Notification
             {
                 UserId = userId,
                 Message = $"You successfully rented '{movie.Title}' 🎬. \n" +
@@ -55,8 +92,7 @@ namespace MVC_Movie.Controllers
                 CreatedAt = DateTime.Now,
                 IsRead = false
             };
-
-            _context.Notifications.Add(notification);
+            _context.Notifications.Add(rentalNotification);
 
             await _context.SaveChangesAsync();
 
@@ -80,8 +116,8 @@ namespace MVC_Movie.Controllers
             rental.ReturnedAt = DateTime.UtcNow;
             rental.Movie.IsAvailable = true;
 
-            // ✅ ADD Returned NOTIFICATION HERE
-            var notification = new Notification
+            // 🔔 ADD NOTIFICATION HERE
+            var returnedNotification = new Notification
             {
                 UserId = rental.UserId,
                 Message = $"Return Confirmed ✅ '{rental.Movie.Title}' has been returned successfully.\n" +
@@ -89,12 +125,59 @@ namespace MVC_Movie.Controllers
                 CreatedAt = DateTime.Now,
                 IsRead = false
             };
-
-            _context.Notifications.Add(notification);
+            _context.Notifications.Add(returnedNotification);
 
             await _context.SaveChangesAsync();
 
+            // 🎯 LOYALTY SYSTEM STARTS HERE
+            var userId = rental.UserId;
+
+            var completedRentals = await _context.MovieRentals
+                .CountAsync(r => r.UserId == userId &&
+                                 r.Status == RentalStatus.Returned);
+
+            // 🎉 Reward ONLY at first 5 and 10 rentals
+            if (completedRentals == 5 || completedRentals == 10)
+            {
+                string code = GenerateCouponCode();
+
+                var coupon = new Coupon
+                {
+                    Code = code,
+                    DiscountPercentage = completedRentals == 5 ? 50 : 100,
+                    ExpiryDate = DateTime.UtcNow.AddDays(30),
+                    IsActive = true,
+                    UsageLimit = 2,
+                    TimesUsed = 0,
+                    UserId = userId,
+                    CouponType = CouponType.Rent
+                };
+                _context.Coupons.Add(coupon);
+
+                // 🔔 ADD NOTIFICATION HERE
+                var rewardNotification = new Notification
+                {
+                    UserId = userId,
+                    Message = "🎉 Loyalty Reward!\n" + 
+                              $"Congratulations! You completed {completedRentals} rentals.\n" +
+                              $"Here is your FREE rental coupon: {code}",
+                    CreatedAt = DateTime.UtcNow,
+                    IsRead = false
+                };
+                _context.Notifications.Add(rewardNotification);
+
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(MyRentals));
+        }
+
+        private string GenerateCouponCode()
+        {
+            return "LOYALTY-" + Guid.NewGuid()
+                .ToString()
+                .Substring(0, 6)
+                .ToUpper();
         }
 
         public async Task<IActionResult> MyRentals()

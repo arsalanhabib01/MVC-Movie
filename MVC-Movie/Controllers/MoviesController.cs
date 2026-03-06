@@ -46,17 +46,46 @@ namespace MVC_Movie.Controllers
                 if (!alreadyNotified)
                 {
                     // ⛔ ADD OVERDUE NOTIFICATION HERE
-                    var notification = new Notification
+                    var overdueNotification = new Notification
                     {
                         UserId = rental.UserId,
                         Message = $"Your rental for '{rental.Movie.Title}' has expired ⛔.",
                         CreatedAt = DateTime.Now,
                         IsRead = false
                     };
-
-                    _context.Notifications.Add(notification);
+                    _context.Notifications.Add(overdueNotification);
                 }
             }
+
+            // Get expired coupons
+            var expiredCoupons = await _context.Coupons
+                .Where(c => c.ExpiryDate < DateTime.Now && c.IsActive)
+                .ToListAsync();
+
+            foreach (var coupon in expiredCoupons)
+            {
+                coupon.IsActive = false;
+
+                bool alreadyNotified = await _context.Notifications
+                        .AnyAsync(n =>
+                            n.UserId == coupon.UserId &&
+                            n.Message.Contains(coupon.Code) &&
+                            n.Message.Contains("expired"));
+
+                if (!alreadyNotified)
+                {
+                    // 🔔 ADD OVERDUE NOTIFICATION HERE
+                    var overdueNotification = new Notification
+                    {
+                        UserId = coupon.UserId,
+                        Message = $"Your coupon '{coupon.Code}' has expired ⛔.",
+                        CreatedAt = DateTime.Now,
+                        IsRead = false
+                    };
+                    _context.Notifications.Add(overdueNotification);
+                }
+            }
+
             await _context.SaveChangesAsync();
 
             return View(await _context.Movie.ToListAsync());

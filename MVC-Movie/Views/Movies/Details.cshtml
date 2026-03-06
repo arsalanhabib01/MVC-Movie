@@ -185,7 +185,7 @@
 			<span class="">@Model.Description</span>
 		</p>
 
-		<div class="d-flex mb-4">
+		<div class="d-flex mb-3">
 			<!-- SELECT LANGUAGE -->
 			<select id="selectLanguage" class="form-select" style="max-width: 200px">
 				<option value="">Choose Language</option>
@@ -269,16 +269,41 @@
 				<form asp-controller="MovieRentals"
 					  asp-action="RentMovie"
 					  asp-route-movieId="@Model.Id"
+					  data-type="Rent,Birthday"
 					  method="post" class="d-inline">
-					<span class="badge bg-success me-2">
-						<i class="bi bi-check-circle-fill"></i> Available
-					</span>
 
-					<button type="submit" class="btn btn-primary">
-						<i class="bi bi-cart-plus-fill"></i>
-						<span >Rent Now</span>
-						<span class="badge bg-warning text-dark">$7.00</span>
-					</button>
+					<!-- Coupon Row -->
+					<div class="position-relative d-flex align-items-center gap-2">
+						<i class="fa-solid fa-ticket position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+
+						<input type="text"
+							   name="couponCode"
+							   placeholder="Enter Coupon Code"
+							   class="couponCode form-control d-inline w-auto ps-5" />
+
+						<button type="button"
+								class="applyCouponBtn btn btn-outline-secondary">
+							Apply
+						</button>
+					</div>
+
+					<span class="couponMessage text-danger"></span>
+
+					<!-- Rent Section -->
+					<div class="d-flex align-items-center gap-2 mt-3">
+						<span class="badge bg-success me-2">
+							<i class="bi bi-check-circle-fill"></i> Available
+						</span>
+
+						<button type="submit" class="btn btn-primary">
+							<i class="bi bi-cart-plus-fill"></i>
+							Rent Now
+							<span class="priceBadge badge bg-warning text-dark"
+								  data-price="8.00">
+								$8.00
+							</span>
+						</button>
+					</div>
 
 				</form>
 			}
@@ -311,16 +336,43 @@
 				<form asp-controller="MoviePurchases"
 					  asp-action="BuyMovie"
 					  asp-route-movieId="@Model.Id"
+					  data-type="Purchase,Birthday"
 					  method="post" class="d-inline">
 
-					<span class="badge bg-success me-2">
-						<i class="bi bi-check-circle-fill"></i> Available
-					</span>
+					<!-- Coupon Row -->
+					<div class="position-relative d-flex align-items-center gap-2">
+						<i class="fa-solid fa-ticket position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
 
-					<button type="submit" class="btn btn-primary">
-						<i class="bi bi-cart-plus-fill"></i> Buy Now
-						<span class="badge bg-warning text-dark">$25.00</span>
-					</button>
+						<input type="text"
+							   name="couponCode"
+							   placeholder="Enter Coupon Code"
+							   class="couponCode form-control d-inline w-auto ps-5" />
+
+						<button type="button"
+								class="applyCouponBtn btn btn-outline-secondary">
+							Apply
+						</button>
+
+					</div>
+
+					<span class="couponMessage text-danger"></span>
+
+					<!-- Buy Section -->
+					<div class="d-flex align-items-center gap-2 mt-3">
+						<span class="badge bg-success me-2">
+							<i class="bi bi-check-circle-fill"></i> Available
+						</span>
+
+						<button type="submit" class="btn btn-primary">
+							<i class="bi bi-cart-plus-fill"></i>
+							Buy Now
+							<span class="priceBadge badge bg-warning text-dark"
+								  data-price="30.00">
+								$30.00
+							</span>
+						</button>
+					</div>
+
 				</form>
 			}
 		</div>
@@ -388,5 +440,54 @@
 				});
 			});
 		});
+		
+		// JS: Apply Coupon Code (RENT A MOVIE)
+		document.querySelectorAll(".applyCouponBtn").forEach(button => {
+
+			button.addEventListener("click", function () {
+
+				var form = this.closest("form");
+
+				var codeInput = form.querySelector(".couponCode");
+				var priceElement = form.querySelector(".priceBadge");
+				var message = form.querySelector(".couponMessage");
+
+				var types = form.getAttribute("data-type"); // Rent or Purchase
+				var code = codeInput.value;
+
+				var originalPrice = parseFloat(priceElement.getAttribute("data-price"));
+
+				fetch('/Coupons/ValidateCoupon', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+						body: new URLSearchParams({
+							couponCode: code,
+							types: types
+					})
+				})
+				.then(response => response.json())
+				.then(data => {
+
+					if (!data.success) {
+						message.innerText = data.message;
+						priceElement.innerText = "$" + originalPrice.toFixed(2);
+					}
+					else {
+						message.innerText = data.message;
+
+						var discount = data.discount;
+						var finalPrice = originalPrice - (originalPrice * discount / 100);
+
+						if (finalPrice < 0) finalPrice = 0;
+
+						priceElement.innerText = "$" + finalPrice.toFixed(2);
+					}
+				});
+			});
+
+		});
+
 	</script>
 }

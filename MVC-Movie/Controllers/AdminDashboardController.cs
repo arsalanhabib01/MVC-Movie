@@ -40,7 +40,11 @@ namespace MVC_Movie.Controllers
 
                 TotalRevenue =
                     await _context.MovieRentals.SumAsync(r => r.RentalPrice) +
-                    await _context.MoviePurchases.SumAsync(p => p.PurchasePrice)
+                    await _context.MoviePurchases.SumAsync(p => p.PurchasePrice),
+
+                TotalDiscount =
+                    await _context.MovieRentals.SumAsync(r => r.DiscountApplied) +
+                    await _context.MoviePurchases.SumAsync(p => p.DiscountApplied)
             };
 
             return View(dashboard);
@@ -58,6 +62,10 @@ namespace MVC_Movie.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
                 var profile = profiles.FirstOrDefault(p => p.UserId == user.Id);
 
+                if (profile != null)
+                {
+                    await CheckBirthdayDiscount(user.Id);
+                }
 
                 result.Add(new UserWithRoleVM
                 {
@@ -83,6 +91,63 @@ namespace MVC_Movie.Controllers
             await _userManager.DeleteAsync(user);
 
             return RedirectToAction(nameof(Users));
+        }
+
+        private async Task CheckBirthdayDiscount(string userId)
+        {
+            var profile = await _context.UserProfiles
+                .FirstOrDefaultAsync(p => p.UserId == userId);
+
+            if (profile?.DateOfBirth != null)
+            {
+                var today = DateTime.UtcNow;
+
+                if (profile.DateOfBirth.Value.Month == today.Month &&
+                    profile.DateOfBirth.Value.Day == today.Day)
+                {
+                    bool alreadyGiven = await _context.Coupons
+                        .AnyAsync(c => c.UserId == userId &&
+                                       c.Code.StartsWith("BD"));
+
+                    if (!alreadyGiven)
+                    {
+                        string code = "BD" + GenerateCouponCode();
+
+                        var coupon = new Coupon
+                        {
+                            Code = code,
+                            DiscountPercentage = 80,
+                            ExpiryDate = DateTime.UtcNow.AddDays(7),
+                            CouponType = CouponType.Birthday,
+                            IsActive = true,
+                            UsageLimit = 1,
+                            TimesUsed = 0,
+                            UserId = userId
+                        };
+
+                        _context.Coupons.Add(coupon);
+
+                        var notification = new Notification
+                        {
+                            UserId = userId,
+                            Message = "🎂 Happy Birthday!\n" + 
+                                      $"Enjoy 80% off! Coupon: {code}",
+                            CreatedAt = DateTime.UtcNow,
+                            IsRead = false
+                        };
+
+                        _context.Notifications.Add(notification);
+
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+        }
+        private string GenerateCouponCode()
+        {
+            return Guid.NewGuid().ToString()
+                .Substring(0, 8)
+                .ToUpper();
         }
 
     }
