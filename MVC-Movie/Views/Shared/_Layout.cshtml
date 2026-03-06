@@ -123,6 +123,18 @@
 
 							<li class="nav-item ms-3">
 								<span class="opacity-75 text-muted fw-bold">
+									Coupons
+									<a class="nav-link text-dark icon-btn ms-2 @(isAdmin ? "admin" : "user")
+					                   @(ViewContext.RouteData.Values["controller"]?.ToString() == "Coupons"
+									   && ViewContext.RouteData.Values["action"]?.ToString() == "MyCoupons"
+									   ? "active" : "")" asp-controller="Coupons" asp-action="MyCoupons">
+									   <i class="fa-solid fa-ticket" style="font-size: 1.1rem;"></i>
+									</a>
+								</span>
+							</li>
+
+							<li class="nav-item ms-3">
+								<span class="opacity-75 text-muted fw-bold">
 									Notifications
 									<a class="nav-link text-dark icon-btn ms-2 @(isAdmin ? "admin" : "user")
 			                           @(ViewContext.RouteData.Values["controller"]?.ToString() == "Notifications"
